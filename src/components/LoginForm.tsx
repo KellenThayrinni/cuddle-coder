@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Mail, Lock, Eye, EyeOff, Phone, ArrowRight, Send, KeyRound, Trash2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -13,6 +14,7 @@ const pageVariants = {
 const pageTransition = { duration: 0.3, ease: "easeInOut" };
 
 const LoginForm = () => {
+  const navigate = useNavigate();
   const [view, setView] = useState<FormView>("login");
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
@@ -114,6 +116,7 @@ const LoginForm = () => {
                       setShowPassword={setShowPassword}
                       onForgot={() => setView("forgot")}
                       onClear={clearData}
+                      onSubmit={() => navigate("/dashboard")}
                     />
                   </motion.div>
                 ) : (
@@ -155,10 +158,11 @@ interface LoginViewProps {
   setShowPassword: (v: boolean) => void;
   onForgot: () => void;
   onClear: () => void;
+  onSubmit: () => void;
 }
 
-const LoginView = ({ email, setEmail, password, setPassword, showPassword, setShowPassword, onForgot, onClear }: LoginViewProps) => (
-  <form onSubmit={(e) => e.preventDefault()} className="space-y-5">
+const LoginView = ({ email, setEmail, password, setPassword, showPassword, setShowPassword, onForgot, onClear, onSubmit }: LoginViewProps) => (
+  <form onSubmit={(e) => { e.preventDefault(); onSubmit(); }} className="space-y-5">
     <FormField label="E-MAIL" icon={<Mail className="w-4 h-4 text-muted-foreground" />} delay={0}>
       <input
         type="email"
