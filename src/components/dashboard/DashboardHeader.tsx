@@ -19,14 +19,14 @@ const DashboardHeader = () => {
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.4 }}
-      className="sticky top-0 z-50 w-full border-b border-border bg-card/80 backdrop-blur-md"
+      className="sticky top-0 z-50 w-full border-b border-primary/30 bg-primary backdrop-blur-md"
     >
       <div className="container flex h-16 items-center justify-between px-4 md:px-6">
         {/* Logo */}
         <div className="flex items-center gap-2">
           <div className="h-8 w-8 rounded-lg hero-gradient" />
-          <span className="text-lg font-bold text-foreground">
-            Crie<span className="text-primary">Oferta</span>
+          <span className="text-lg font-bold text-primary-foreground">
+            Crie<span className="text-accent">Oferta</span>
           </span>
         </div>
 
@@ -35,26 +35,26 @@ const DashboardHeader = () => {
           <Button
             variant="ghost"
             size="sm"
-            className="hidden md:flex items-center gap-2 text-muted-foreground hover:text-foreground"
+            className="hidden md:flex items-center gap-2 text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10"
           >
             <Play className="h-4 w-4" />
             Assistir Tutorial
           </Button>
 
-          <Button variant="ghost" size="icon" className="relative text-muted-foreground hover:text-foreground">
+          <Button variant="ghost" size="icon" className="relative text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10">
             <Bell className="h-5 w-5" />
             <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-accent" />
           </Button>
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="flex items-center gap-2 px-2">
+              <Button variant="ghost" className="flex items-center gap-2 px-2 hover:bg-primary-foreground/10">
                 <Avatar className="h-8 w-8">
-                  <AvatarFallback className="bg-primary text-primary-foreground text-xs font-semibold">
+                  <AvatarFallback className="bg-primary-foreground/20 text-primary-foreground text-xs font-semibold">
                     US
                   </AvatarFallback>
                 </Avatar>
-                <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                <ChevronDown className="h-4 w-4 text-primary-foreground/80" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
