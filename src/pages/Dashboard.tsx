@@ -1,8 +1,11 @@
+import { useState, useEffect } from "react";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import SearchBanner from "@/components/dashboard/SearchBanner";
 import MenuSection from "@/components/dashboard/MenuSection";
 import ThemeSlider from "@/components/dashboard/ThemeSlider";
-import { motion } from "framer-motion";
+import TutorialModal from "@/components/dashboard/TutorialModal";
+import TutorialArrow from "@/components/dashboard/TutorialArrow";
+import { motion, AnimatePresence } from "framer-motion";
 
 const gradients = [
   "bg-gradient-to-br from-primary to-accent",
