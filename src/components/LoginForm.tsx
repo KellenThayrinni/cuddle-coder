@@ -124,7 +124,7 @@ const LoginView = ({ email, setEmail, password, setPassword, showPassword, setSh
       </button>
     </FormField>
 
-    <button type="submit" className="w-full btn-gradient text-primary-foreground font-semibold py-3.5 rounded-xl shadow-button hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 text-sm">
+    <button type="submit" className="w-full btn-gradient text-primary-foreground font-semibold py-3.5 rounded-xl button-shadow hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 text-sm">
       Entrar <ArrowRight className="w-4 h-4" />
     </button>
 
@@ -202,7 +202,7 @@ const RegisterView = ({ phone, setPhone, email, setEmail, password, setPassword,
       </button>
     </FormField>
 
-    <button type="submit" className="w-full btn-gradient text-primary-foreground font-semibold py-3.5 rounded-xl shadow-button hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 text-sm">
+    <button type="submit" className="w-full btn-gradient text-primary-foreground font-semibold py-3.5 rounded-xl button-shadow hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 text-sm">
       Continuar <ArrowRight className="w-4 h-4" />
     </button>
 
@@ -238,7 +238,7 @@ const ForgotView = ({ email, setEmail, onBack }: ForgotViewProps) => (
       />
     </FormField>
 
-    <button type="submit" className="w-full btn-gradient text-primary-foreground font-semibold py-3.5 rounded-xl shadow-button hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 text-sm">
+    <button type="submit" className="w-full btn-gradient text-primary-foreground font-semibold py-3.5 rounded-xl button-shadow hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 text-sm">
       Enviar link de recuperação <Send className="w-4 h-4" />
     </button>
 
@@ -253,7 +253,7 @@ const FormField = ({ label, icon, children }: { label: string; icon: React.React
     <label className="block text-[11px] font-semibold tracking-wider text-muted-foreground mb-2 uppercase">
       {label}
     </label>
-    <div className="relative flex items-center bg-muted/50 border border-border rounded-xl px-3 focus-within:border-primary focus-within:shadow-input-focus transition-all">
+    <div className="relative flex items-center bg-muted/50 border border-border rounded-xl px-3 focus-within:border-primary focus-within:input-focus-shadow transition-all">
       <span className="mr-2 shrink-0">{icon}</span>
       {children}
     </div>
