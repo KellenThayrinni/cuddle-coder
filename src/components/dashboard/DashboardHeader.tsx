@@ -19,7 +19,8 @@ const DashboardHeader = () => {
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.4 }}
-      className="sticky top-0 z-50 w-full border-b border-header/30 bg-header backdrop-blur-md"
+      className="sticky top-0 z-50 w-full border-b border-header/30 backdrop-blur-md"
+      style={{ background: 'linear-gradient(135deg, var(--header-start), var(--header-end))' }}
     >
       <div className="container flex h-16 items-center justify-between px-4 md:px-6">
         {/* Logo */}
