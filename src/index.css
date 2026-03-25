@@ -117,4 +117,7 @@
   .hero-text-overlay {
     text-shadow: 0 2px 20px hsl(270 50% 20% / 0.5);
   }
+  .form-input-field {
+    @apply w-full bg-transparent py-3 text-sm text-foreground placeholder:text-muted-foreground outline-none;
+  }
 }
