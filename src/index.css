@@ -34,6 +34,8 @@
     --input: 270 15% 90%;
     --ring: 270 70% 55%;
     --header: 276 82% 28%;
+    --header-start: #360353;
+    --header-end: #6f17af;
     --header-foreground: 0 0% 100%;
 
     --radius: 0.75rem;
