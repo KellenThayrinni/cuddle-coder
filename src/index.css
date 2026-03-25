@@ -105,13 +105,13 @@
   .btn-gradient:hover {
     background: var(--gradient-button-hover);
   }
-  .shadow-card {
+  .card-shadow {
     box-shadow: var(--shadow-card);
   }
-  .shadow-input-focus {
+  .input-focus-shadow {
     box-shadow: var(--shadow-input-focus);
   }
-  .shadow-button {
+  .button-shadow {
     box-shadow: var(--shadow-button);
   }
   .hero-text-overlay {
