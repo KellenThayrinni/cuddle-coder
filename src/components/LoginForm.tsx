@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Mail, Lock, Eye, EyeOff, Phone, ArrowRight, Send, KeyRound, Trash2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
