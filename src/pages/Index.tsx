@@ -1,6 +1,7 @@
 import HeroSide from "@/components/HeroSide";
 import LoginForm from "@/components/LoginForm";
 import { MessageCircle } from "lucide-react";
+import { motion } from "framer-motion";
 
 const Index = () => {
   return (
@@ -11,22 +12,27 @@ const Index = () => {
       </div>
 
       {/* Right - Form */}
-      <div className="flex-1 flex items-center justify-center bg-background p-6 md:p-12 relative">
+      <div className="flex-1 flex items-center justify-center bg-background p-6 md:p-12 relative overflow-hidden">
         {/* Mobile gradient header */}
         <div className="lg:hidden absolute top-0 left-0 right-0 h-2 hero-gradient" />
         
         <LoginForm />
 
         {/* WhatsApp FAB */}
-        <a
+        <motion.a
           href="https://wa.me/5500000000000"
           target="_blank"
           rel="noopener noreferrer"
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.8, type: "spring", stiffness: 200 }}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
           className="fixed bottom-6 right-6 w-14 h-14 rounded-full bg-[hsl(142,70%,45%)] hover:bg-[hsl(142,70%,40%)] text-primary-foreground flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-200 z-50"
           aria-label="Fale conosco no WhatsApp"
         >
           <MessageCircle className="w-6 h-6" />
-        </a>
+        </motion.a>
       </div>
     </div>
   );
