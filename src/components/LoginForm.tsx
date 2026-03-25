@@ -116,6 +116,7 @@ const LoginForm = () => {
                       setShowPassword={setShowPassword}
                       onForgot={() => setView("forgot")}
                       onClear={clearData}
+                      onSubmit={() => navigate("/dashboard")}
                     />
                   </motion.div>
                 ) : (
@@ -157,6 +158,7 @@ interface LoginViewProps {
   setShowPassword: (v: boolean) => void;
   onForgot: () => void;
   onClear: () => void;
+  onSubmit: () => void;
 }
 
 const LoginView = ({ email, setEmail, password, setPassword, showPassword, setShowPassword, onForgot, onClear }: LoginViewProps) => (
