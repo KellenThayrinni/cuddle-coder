@@ -18,7 +18,7 @@ const LoginForm = () => {
 
   return (
     <div className="w-full max-w-md mx-auto">
-      <div className="bg-card rounded-2xl shadow-card p-8 md:p-10 border border-border/50 backdrop-blur-sm">
+      <div className="bg-card rounded-2xl card-shadow p-8 md:p-10 border border-border/50 backdrop-blur-sm">
         {view === "forgot" ? (
           <ForgotView
             email={email}
