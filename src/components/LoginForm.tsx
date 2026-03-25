@@ -161,8 +161,8 @@ interface LoginViewProps {
   onSubmit: () => void;
 }
 
-const LoginView = ({ email, setEmail, password, setPassword, showPassword, setShowPassword, onForgot, onClear }: LoginViewProps) => (
-  <form onSubmit={(e) => e.preventDefault()} className="space-y-5">
+const LoginView = ({ email, setEmail, password, setPassword, showPassword, setShowPassword, onForgot, onClear, onSubmit }: LoginViewProps) => (
+  <form onSubmit={(e) => { e.preventDefault(); onSubmit(); }} className="space-y-5">
     <FormField label="E-MAIL" icon={<Mail className="w-4 h-4 text-muted-foreground" />} delay={0}>
       <input
         type="email"
