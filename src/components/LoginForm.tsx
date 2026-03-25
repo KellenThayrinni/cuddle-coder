@@ -14,6 +14,7 @@ const pageVariants = {
 const pageTransition = { duration: 0.3, ease: "easeInOut" };
 
 const LoginForm = () => {
+  const navigate = useNavigate();
   const [view, setView] = useState<FormView>("login");
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
