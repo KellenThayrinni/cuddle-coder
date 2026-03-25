@@ -35,13 +35,13 @@ const DashboardHeader = () => {
           <Button
             variant="ghost"
             size="sm"
-            className="hidden md:flex items-center gap-2 text-muted-foreground hover:text-foreground"
+            className="hidden md:flex items-center gap-2 text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10"
           >
             <Play className="h-4 w-4" />
             Assistir Tutorial
           </Button>
 
-          <Button variant="ghost" size="icon" className="relative text-muted-foreground hover:text-foreground">
+          <Button variant="ghost" size="icon" className="relative text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10">
             <Bell className="h-5 w-5" />
             <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-accent" />
           </Button>
