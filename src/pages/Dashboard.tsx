@@ -33,9 +33,22 @@ const sliders = [
 ];
 
 const Dashboard = () => {
+  const [showTutorial, setShowTutorial] = useState(true);
+  const [showArrow, setShowArrow] = useState(false);
+
+  const handleCloseTutorial = () => {
+    setShowTutorial(false);
+    setShowArrow(true);
+    setTimeout(() => setShowArrow(false), 5000);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <DashboardHeader />
+      <TutorialModal open={showTutorial} onClose={handleCloseTutorial} />
+      <AnimatePresence>
+        <TutorialArrow show={showArrow} />
+      </AnimatePresence>
       <SearchBanner />
       <MenuSection />
 
