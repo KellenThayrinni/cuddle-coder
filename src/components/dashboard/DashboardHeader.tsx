@@ -25,8 +25,8 @@ const DashboardHeader = () => {
         {/* Logo */}
         <div className="flex items-center gap-2">
           <div className="h-8 w-8 rounded-lg hero-gradient" />
-          <span className="text-lg font-bold text-foreground">
-            Crie<span className="text-primary">Oferta</span>
+          <span className="text-lg font-bold text-primary-foreground">
+            Crie<span className="text-accent">Oferta</span>
           </span>
         </div>
 
