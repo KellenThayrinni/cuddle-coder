@@ -140,7 +140,7 @@ const LogoFonteTab = () => (
 
 const EditorProperties = ({ activeTool }: EditorPropertiesProps) => {
   return (
-    <div className="w-72 lg:w-80 border-l border-border bg-card shrink-0 flex flex-col overflow-hidden">
+    <div className="w-80 lg:w-96 border-l border-border bg-card shrink-0 flex flex-col overflow-hidden">
       <Tabs defaultValue="produtos" className="flex flex-col flex-1 overflow-hidden">
         <TabsList className="w-full rounded-none border-b border-border bg-transparent h-auto p-0 shrink-0">
           {["temas", "produtos", "rodapé", "imagens", "logo/fonte"].map(tab => (
