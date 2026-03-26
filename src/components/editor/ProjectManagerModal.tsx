@@ -44,6 +44,7 @@ const ProjectManagerModal = ({ open, onClose, mode }: ProjectManagerModalProps) 
   const [projectName, setProjectName] = useState("");
   const [search, setSearch] = useState("");
   const [projects, setProjects] = useState<SavedProject[]>(mockProjects);
+  const [loadingProject, setLoadingProject] = useState<SavedProject | null>(null);
 
   const filtered = projects.filter((p) =>
     p.name.toLowerCase().includes(search.toLowerCase())
@@ -65,12 +66,17 @@ const ProjectManagerModal = ({ open, onClose, mode }: ProjectManagerModalProps) 
   };
 
   const handleLoad = (project: SavedProject) => {
-    onClose();
+    setLoadingProject(project);
   };
 
+  const handleLoadComplete = useCallback(() => {
+    setLoadingProject(null);
+    onClose();
+  }, [onClose]);
+
   return (
-    <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
-      <DialogContent className="sm:max-w-md p-0 gap-0 overflow-hidden rounded-2xl border-none shadow-2xl bg-card">
+    <Dialog open={open} onOpenChange={(v) => { if (!v && !loadingProject) onClose(); }}>
+      <DialogContent className={`sm:max-w-md p-0 gap-0 overflow-hidden rounded-2xl border-none shadow-2xl bg-card ${loadingProject ? "[&>button]:hidden" : ""}`}>
         {/* Minimal header */}
         <div className="px-6 pt-6 pb-4">
           <DialogHeader className="space-y-1">
