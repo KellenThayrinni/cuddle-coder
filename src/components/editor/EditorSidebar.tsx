@@ -45,12 +45,15 @@ interface EditorSidebarProps {
 
 const EditorSidebar = ({ activePanel, onPanelChange }: EditorSidebarProps) => {
   const navigate = useNavigate();
+  const [modalMode, setModalMode] = useState<"save" | "load" | null>(null);
 
   const handleClick = (item: SidebarItem) => {
     if (item.id === "sair") {
       navigate("/dashboard");
     } else if (item.id === "salvar") {
-      // TODO: save logic
+      setModalMode("save");
+    } else if (item.id === "carregar") {
+      setModalMode("load");
     } else {
       onPanelChange(item.id as PanelId);
     }
@@ -126,6 +129,12 @@ const EditorSidebar = ({ activePanel, onPanelChange }: EditorSidebarProps) => {
           })}
         </div>
       </div>
+
+      <ProjectManagerModal
+        open={modalMode !== null}
+        onClose={() => setModalMode(null)}
+        mode={modalMode ?? "load"}
+      />
     </TooltipProvider>
   );
 };
