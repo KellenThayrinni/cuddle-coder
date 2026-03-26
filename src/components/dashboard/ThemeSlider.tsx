@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
@@ -16,6 +17,7 @@ interface ThemeSliderProps {
 }
 
 const ThemeSlider = ({ title, items, index }: ThemeSliderProps) => {
+  const navigate = useNavigate();
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -82,6 +84,7 @@ const ThemeSlider = ({ title, items, index }: ThemeSliderProps) => {
             key={item.id}
             whileHover={{ scale: 1.03, y: -4 }}
             whileTap={{ scale: 0.97 }}
+            onClick={() => navigate(`/loading/${item.id}`)}
             className="snap-start shrink-0 w-[200px] md:w-[240px] aspect-[3/4] rounded-2xl cursor-pointer overflow-hidden relative group"
           >
             <div className={`absolute inset-0 ${item.gradient} transition-all duration-300`} />
