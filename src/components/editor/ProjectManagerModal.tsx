@@ -1,5 +1,7 @@
 import { useState, useCallback } from "react";
 import ProjectLoadingScreen from "./ProjectLoadingScreen";
+import {
+  Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
