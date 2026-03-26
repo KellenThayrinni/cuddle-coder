@@ -18,13 +18,13 @@ const Editor = () => {
     <div className="h-[100dvh] flex flex-col bg-background overflow-hidden">
       <EditorHeader />
       <div className="flex flex-1 overflow-hidden relative">
-        {/* Left sidebar - always visible */}
+        {/* Left sidebar - desktop only (mobile uses bottom bar) */}
         <EditorSidebar activePanel={activePanel} onPanelChange={handlePanelToggle} />
 
         {/* Canvas */}
         <EditorCanvas />
 
-        {/* Right panel - slides in/out */}
+        {/* Right panel - desktop slides in */}
         <AnimatePresence>
           {activePanel && (
             <motion.div
@@ -32,22 +32,22 @@ const Editor = () => {
               animate={{ width: "auto", opacity: 1 }}
               exit={{ width: 0, opacity: 0 }}
               transition={{ duration: 0.2, ease: "easeInOut" }}
-              className="shrink-0 overflow-hidden"
+              className="shrink-0 overflow-hidden hidden md:block"
             >
               <EditorPanel activePanel={activePanel} onClose={() => setActivePanel(null)} />
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* Mobile overlay panel */}
+        {/* Mobile overlay panel - slides up from bottom */}
         <AnimatePresence>
           {activePanel && (
             <motion.div
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ duration: 0.25, ease: "easeInOut" }}
-              className="absolute inset-0 z-50 md:hidden"
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ duration: 0.3, ease: [0.32, 0.72, 0, 1] }}
+              className="absolute inset-x-0 bottom-0 top-0 z-40 md:hidden"
             >
               <EditorPanel activePanel={activePanel} onClose={() => setActivePanel(null)} isMobile />
             </motion.div>
