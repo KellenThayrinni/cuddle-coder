@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
+import ProjectLoadingScreen from "./ProjectLoadingScreen";
 import {
   Dialog,
   DialogContent,
@@ -43,6 +44,7 @@ const ProjectManagerModal = ({ open, onClose, mode }: ProjectManagerModalProps) 
   const [projectName, setProjectName] = useState("");
   const [search, setSearch] = useState("");
   const [projects, setProjects] = useState<SavedProject[]>(mockProjects);
+  const [loadingProject, setLoadingProject] = useState<SavedProject | null>(null);
 
   const filtered = projects.filter((p) =>
     p.name.toLowerCase().includes(search.toLowerCase())
@@ -64,121 +66,129 @@ const ProjectManagerModal = ({ open, onClose, mode }: ProjectManagerModalProps) 
   };
 
   const handleLoad = (project: SavedProject) => {
-    onClose();
+    setLoadingProject(project);
   };
 
+  const handleLoadComplete = useCallback(() => {
+    setLoadingProject(null);
+    onClose();
+  }, [onClose]);
+
   return (
-    <Dialog open={open} onOpenChange={(v) => !v && onClose()}>
-      <DialogContent className="sm:max-w-md p-0 gap-0 overflow-hidden rounded-2xl border-none shadow-2xl bg-card">
-        {/* Minimal header */}
-        <div className="px-6 pt-6 pb-4">
-          <DialogHeader className="space-y-1">
-            <DialogTitle className="text-lg font-bold text-foreground flex items-center gap-2.5">
-              {mode === "load" ? (
-                <>
-                  <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
-                    <FolderOpen className="w-4 h-4 text-primary" />
-                  </div>
-                  Meus Projetos
-                </>
-              ) : (
-                <>
-                  <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
-                    <Save className="w-4 h-4 text-primary" />
-                  </div>
-                  Salvar Projeto
-                </>
-              )}
-            </DialogTitle>
-            <DialogDescription className="text-xs text-muted-foreground pl-[42px]">
-              {mode === "load"
-                ? `${filtered.length} projetos salvos`
-                : "Dê um nome e salve seu projeto"}
-            </DialogDescription>
-          </DialogHeader>
-        </div>
-
-        <div className="px-6 pb-6 space-y-4">
-          {/* Save input */}
-          {mode === "save" && (
-            <div className="flex gap-2">
-              <Input
-                placeholder="Nome do projeto..."
-                value={projectName}
-                onChange={(e) => setProjectName(e.target.value)}
-                className="flex-1 h-10 rounded-xl border-border bg-muted/30 text-sm focus-visible:ring-primary/30"
-                onKeyDown={(e) => e.key === "Enter" && handleSave()}
-              />
-              <Button
-                onClick={handleSave}
-                disabled={!projectName.trim()}
-                className="rounded-xl h-10 px-5 gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90"
-              >
-                <Save className="w-4 h-4" />
-                Salvar
-              </Button>
+    <Dialog open={open} onOpenChange={(v) => { if (!v && !loadingProject) onClose(); }}>
+      <DialogContent className={`sm:max-w-md p-0 gap-0 overflow-hidden rounded-2xl border-none shadow-2xl bg-card ${loadingProject ? "[&>button]:hidden" : ""}`}>
+        {loadingProject ? (
+          <ProjectLoadingScreen projectName={loadingProject.name} onComplete={handleLoadComplete} />
+        ) : (
+          <>
+            {/* Minimal header */}
+            <div className="px-6 pt-6 pb-4">
+              <DialogHeader className="space-y-1">
+                <DialogTitle className="text-lg font-bold text-foreground flex items-center gap-2.5">
+                  {mode === "load" ? (
+                    <>
+                      <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
+                        <FolderOpen className="w-4 h-4 text-primary" />
+                      </div>
+                      Meus Projetos
+                    </>
+                  ) : (
+                    <>
+                      <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
+                        <Save className="w-4 h-4 text-primary" />
+                      </div>
+                      Salvar Projeto
+                    </>
+                  )}
+                </DialogTitle>
+                <DialogDescription className="text-xs text-muted-foreground pl-[42px]">
+                  {mode === "load"
+                    ? `${filtered.length} projetos salvos`
+                    : "Dê um nome e salve seu projeto"}
+                </DialogDescription>
+              </DialogHeader>
             </div>
-          )}
 
-          {/* Search */}
-          <div className="relative">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground/60" />
-            <Input
-              placeholder="Buscar..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="pl-9 h-9 rounded-xl border-border bg-muted/30 text-sm focus-visible:ring-primary/30"
-            />
-          </div>
-
-          {/* Project list */}
-          <ScrollArea className="h-[360px]">
-            <div className="space-y-1">
-              <AnimatePresence>
-                {filtered.map((project, i) => (
-                  <motion.div
-                    key={project.id}
-                    layout
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.15, delay: i * 0.02 }}
-                    className="group flex items-center gap-3 px-3 py-3 rounded-xl cursor-pointer hover:bg-muted/50 transition-colors"
-                    onClick={() => mode === "load" && handleLoad(project)}
+            <div className="px-6 pb-6 space-y-4">
+              {mode === "save" && (
+                <div className="flex gap-2">
+                  <Input
+                    placeholder="Nome do projeto..."
+                    value={projectName}
+                    onChange={(e) => setProjectName(e.target.value)}
+                    className="flex-1 h-10 rounded-xl border-border bg-muted/30 text-sm focus-visible:ring-primary/30"
+                    onKeyDown={(e) => e.key === "Enter" && handleSave()}
+                  />
+                  <Button
+                    onClick={handleSave}
+                    disabled={!projectName.trim()}
+                    className="rounded-xl h-10 px-5 gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90"
                   >
-                    <div className="w-10 h-10 rounded-xl bg-primary/8 border border-primary/10 flex items-center justify-center shrink-0">
-                      <FileText className="w-4.5 h-4.5 text-primary/70" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-foreground truncate">{project.name}</p>
-                      <p className="text-[11px] text-muted-foreground flex items-center gap-1 mt-0.5">
-                        <Clock className="w-3 h-3" />
-                        {project.date}
-                      </p>
-                    </div>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDelete(project.id);
-                      }}
-                      className="w-8 h-8 rounded-lg flex items-center justify-center text-muted-foreground/40 hover:text-destructive hover:bg-destructive/10 opacity-0 group-hover:opacity-100 transition-all shrink-0"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-
-              {filtered.length === 0 && (
-                <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
-                  <FolderOpen className="w-10 h-10 mb-3 opacity-30" />
-                  <p className="text-sm font-medium">Nenhum projeto encontrado</p>
-                  <p className="text-xs mt-1 opacity-60">Tente outro termo de busca</p>
+                    <Save className="w-4 h-4" />
+                    Salvar
+                  </Button>
                 </div>
               )}
+
+              <div className="relative">
+                <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground/60" />
+                <Input
+                  placeholder="Buscar..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="pl-9 h-9 rounded-xl border-border bg-muted/30 text-sm focus-visible:ring-primary/30"
+                />
+              </div>
+
+              <ScrollArea className="h-[360px]">
+                <div className="space-y-1">
+                  <AnimatePresence>
+                    {filtered.map((project, i) => (
+                      <motion.div
+                        key={project.id}
+                        layout
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        transition={{ duration: 0.15, delay: i * 0.02 }}
+                        className="group flex items-center gap-3 px-3 py-3 rounded-xl cursor-pointer hover:bg-muted/50 transition-colors"
+                        onClick={() => mode === "load" && handleLoad(project)}
+                      >
+                        <div className="w-10 h-10 rounded-xl bg-primary/8 border border-primary/10 flex items-center justify-center shrink-0">
+                          <FileText className="w-4.5 h-4.5 text-primary/70" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-semibold text-foreground truncate">{project.name}</p>
+                          <p className="text-[11px] text-muted-foreground flex items-center gap-1 mt-0.5">
+                            <Clock className="w-3 h-3" />
+                            {project.date}
+                          </p>
+                        </div>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDelete(project.id);
+                          }}
+                          className="w-8 h-8 rounded-lg flex items-center justify-center text-muted-foreground/40 hover:text-destructive hover:bg-destructive/10 opacity-0 group-hover:opacity-100 transition-all shrink-0"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
+
+                  {filtered.length === 0 && (
+                    <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
+                      <FolderOpen className="w-10 h-10 mb-3 opacity-30" />
+                      <p className="text-sm font-medium">Nenhum projeto encontrado</p>
+                      <p className="text-xs mt-1 opacity-60">Tente outro termo de busca</p>
+                    </div>
+                  )}
+                </div>
+              </ScrollArea>
             </div>
-          </ScrollArea>
-        </div>
+          </>
+        )}
       </DialogContent>
     </Dialog>
   );
