@@ -31,26 +31,6 @@ const panelTitles: Record<PanelId, string> = {
 /* ---- Desktop Product Card (full) ---- */
 const ProductCard = () => (
   <div className="border border-border rounded-xl p-4">
-    <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
-      <div className="flex items-center gap-2">
-        <span className="text-xs text-muted-foreground">Encarte</span>
-        <Switch defaultChecked className="scale-75" />
-        <span className="text-xs font-medium text-foreground">Cartaz</span>
-      </div>
-      <div className="flex items-center gap-2">
-        <span className="text-xs text-muted-foreground">Modo:</span>
-        <Select defaultValue="automatico">
-          <SelectTrigger className="h-7 text-xs w-24 border-primary">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="automatico">Automático</SelectItem>
-            <SelectItem value="manual">Manual</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-    </div>
-
     <div className="border border-primary/20 rounded-xl p-4 bg-primary/[0.02]">
       <div className="flex gap-4">
         <div className="flex flex-col items-center gap-1.5 shrink-0">
@@ -127,23 +107,6 @@ const MobileProductCard = ({ index }: { index: number }) => {
             className="overflow-hidden"
           >
             <div className="px-3 pb-3 space-y-1 border-t border-border pt-2">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-[11px] text-muted-foreground">Encarte</span>
-                <Switch defaultChecked className="scale-[0.6]" />
-                <span className="text-[11px] font-medium text-foreground">Cartaz</span>
-                <div className="ml-auto flex items-center gap-1">
-                  <span className="text-[11px] text-muted-foreground">Modo:</span>
-                  <Select defaultValue="automatico">
-                    <SelectTrigger className="h-6 text-[11px] w-20 border-primary">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="automatico">Automático</SelectItem>
-                      <SelectItem value="manual">Manual</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
 
               {[
                 { icon: Pencil, label: "Editar informações", color: "text-foreground" },
@@ -173,12 +136,33 @@ const MobileProductCard = ({ index }: { index: number }) => {
 };
 
 /* ---- Panel contents ---- */
+const GeneralProductConfig = ({ isMobile }: { isMobile?: boolean }) => (
+  <div className="flex items-center justify-between flex-wrap gap-2 p-3 border border-border rounded-lg bg-muted/30">
+    <div className="flex items-center gap-2">
+      <span className={`${isMobile ? "text-[11px]" : "text-xs"} text-muted-foreground`}>Encarte</span>
+      <Switch defaultChecked className={isMobile ? "scale-[0.6]" : "scale-75"} />
+      <span className={`${isMobile ? "text-[11px]" : "text-xs"} font-medium text-foreground`}>Cartaz</span>
+    </div>
+    <div className="flex items-center gap-2">
+      <span className={`${isMobile ? "text-[11px]" : "text-xs"} text-muted-foreground`}>Modo:</span>
+      <Select defaultValue="automatico">
+        <SelectTrigger className={`${isMobile ? "h-6 text-[11px] w-20" : "h-7 text-xs w-24"} border-primary`}>
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="automatico">Automático</SelectItem>
+          <SelectItem value="manual">Manual</SelectItem>
+        </SelectContent>
+      </Select>
+    </div>
+  </div>
+);
+
 const ProdutosContent = ({ isMobile }: { isMobile?: boolean }) => (
   <div className="space-y-3">
+    <GeneralProductConfig isMobile={isMobile} />
     {isMobile ? (
-      <>
-        <MobileProductCard index={0} />
-      </>
+      <MobileProductCard index={0} />
     ) : (
       <ProductCard />
     )}
