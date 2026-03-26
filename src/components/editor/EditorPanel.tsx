@@ -243,7 +243,7 @@ const EditorPanel = ({ activePanel, onClose, isMobile }: EditorPanelProps) => {
 
       {/* Panel body */}
       <ScrollArea className="flex-1">
-        <div className={isMobile ? "p-3" : "p-4"}>
+        <div className={isMobile ? "p-3 pb-20" : "p-4"}>
           {panelContent[activePanel]}
         </div>
       </ScrollArea>
