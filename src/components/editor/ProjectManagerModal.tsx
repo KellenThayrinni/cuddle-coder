@@ -188,7 +188,7 @@ const ProjectManagerModal = ({ open, onClose, mode }: ProjectManagerModalProps) 
               </ScrollArea>
             </div>
           </>
-        )}
+      </DialogContent>
     </Dialog>
   );
 };
