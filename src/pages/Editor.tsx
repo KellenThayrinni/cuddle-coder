@@ -40,13 +40,14 @@ const Editor = () => {
         </AnimatePresence>
 
         {/* Mobile overlay panel - slides up from bottom */}
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           {activePanel && (
             <motion.div
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "100%" }}
-              transition={{ duration: 0.3, ease: [0.32, 0.72, 0, 1] }}
+              key={activePanel}
+              initial={{ y: "100%", opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: "100%", opacity: 0 }}
+              transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
               className="absolute inset-x-0 bottom-0 z-40 md:hidden max-h-[60dvh] rounded-t-2xl shadow-lg border-t border-border bg-card overflow-hidden"
             >
               <EditorPanel activePanel={activePanel} onClose={() => setActivePanel(null)} isMobile />
