@@ -142,17 +142,19 @@ const EditorProperties = ({ activeTool }: EditorPropertiesProps) => {
   return (
     <div className="w-80 lg:w-96 border-l border-border bg-card shrink-0 flex flex-col overflow-hidden">
       <Tabs defaultValue="produtos" className="flex flex-col flex-1 overflow-hidden">
-        <TabsList className="w-full rounded-none border-b border-border bg-transparent h-auto p-0 shrink-0">
-          {["temas", "produtos", "rodapé", "imagens", "logo/fonte"].map(tab => (
-            <TabsTrigger
-              key={tab}
-              value={tab}
-              className="flex-1 rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none text-[10px] sm:text-xs py-2.5 uppercase tracking-wide font-semibold"
-            >
-              {tab}
-            </TabsTrigger>
-          ))}
-        </TabsList>
+        <div className="w-full rounded-none border-b border-border bg-transparent shrink-0 overflow-x-auto">
+          <TabsList className="w-full min-w-max rounded-none bg-transparent h-auto p-0">
+            {["temas", "produtos", "rodapé", "imagens", "logo/fonte"].map(tab => (
+              <TabsTrigger
+                key={tab}
+                value={tab}
+                className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-primary data-[state=active]:shadow-none text-[10px] sm:text-xs py-2.5 px-3 uppercase tracking-wide font-semibold whitespace-nowrap"
+              >
+                {tab}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </div>
 
         <ScrollArea className="flex-1">
           <TabsContent value="temas" className="mt-0"><TemasTab /></TabsContent>
