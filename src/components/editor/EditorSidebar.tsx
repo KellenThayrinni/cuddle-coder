@@ -1,7 +1,8 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
-  Palette, ShoppingBag, FileText, ImageIcon, Stamp, Type, Save, LogOut
+  Palette, ShoppingBag, FileText, ImageIcon, Stamp, Type, Save, FolderOpen, LogOut
 } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
@@ -11,11 +12,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import ProjectManagerModal from "./ProjectManagerModal";
 
 export type PanelId = "temas" | "produtos" | "rodape" | "imagens" | "logo" | "fontes";
 
 interface SidebarItem {
-  id: PanelId | "salvar" | "sair";
+  id: PanelId | "salvar" | "carregar" | "sair";
   label: string;
   icon: React.ElementType;
   isAction?: boolean;
@@ -32,6 +34,7 @@ const items: SidebarItem[] = [
 
 const actionItems: SidebarItem[] = [
   { id: "salvar", label: "Salvar", icon: Save, isAction: true },
+  { id: "carregar", label: "Carregar", icon: FolderOpen, isAction: true },
   { id: "sair", label: "Sair", icon: LogOut, isAction: true },
 ];
 
