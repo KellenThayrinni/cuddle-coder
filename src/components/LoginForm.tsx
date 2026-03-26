@@ -162,7 +162,7 @@ interface LoginViewProps {
 }
 
 const LoginView = ({ email, setEmail, password, setPassword, showPassword, setShowPassword, onForgot, onClear, onSubmit }: LoginViewProps) => (
-  <form onSubmit={(e) => { e.preventDefault(); onSubmit(); }} className="space-y-5">
+  <form onSubmit={(e) => { e.preventDefault(); localStorage.setItem("crieoferta_user_email", email); onSubmit(); }} className="space-y-5">
     <FormField label="E-MAIL" icon={<Mail className="w-4 h-4 text-muted-foreground" />} delay={0}>
       <input
         type="email"

@@ -5,6 +5,7 @@ import MenuSection from "@/components/dashboard/MenuSection";
 import ThemeSlider from "@/components/dashboard/ThemeSlider";
 import TutorialModal from "@/components/dashboard/TutorialModal";
 import TutorialArrow from "@/components/dashboard/TutorialArrow";
+import LoginAnnouncementPopup from "@/components/dashboard/LoginAnnouncementPopup";
 import { motion, AnimatePresence } from "framer-motion";
 
 const gradients = [
@@ -45,6 +46,7 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-background">
       <DashboardHeader />
+      <LoginAnnouncementPopup />
       <TutorialModal open={showTutorial} onClose={handleCloseTutorial} />
       <AnimatePresence>
         <TutorialArrow show={showArrow} />
