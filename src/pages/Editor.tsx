@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import EditorHeader from "@/components/editor/EditorHeader";
 import EditorSidebar, { type PanelId } from "@/components/editor/EditorSidebar";
+import EditorToolbar from "@/components/editor/EditorToolbar";
 import EditorCanvas from "@/components/editor/EditorCanvas";
 import EditorPanel from "@/components/editor/EditorPanel";
 
