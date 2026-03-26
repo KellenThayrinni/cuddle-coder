@@ -1,8 +1,9 @@
+import { useState } from "react";
 import type { PanelId } from "./EditorSidebar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { X, Pencil, Palette, Tag, Image, Trash2, Heart } from "lucide-react";
+import { X, Pencil, Palette, Tag, Image, Trash2, Heart, ChevronDown, ChevronUp } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -10,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface EditorPanelProps {
   activePanel: PanelId;
@@ -26,10 +28,9 @@ const panelTitles: Record<PanelId, string> = {
   fontes: "Fontes",
 };
 
-/* ---- Product Card ---- */
+/* ---- Desktop Product Card (full) ---- */
 const ProductCard = () => (
   <div className="border border-border rounded-xl p-4">
-    {/* Toggle row */}
     <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
       <div className="flex items-center gap-2">
         <span className="text-xs text-muted-foreground">Encarte</span>
@@ -50,7 +51,6 @@ const ProductCard = () => (
       </div>
     </div>
 
-    {/* Product content */}
     <div className="border border-primary/20 rounded-xl p-4 bg-primary/[0.02]">
       <div className="flex gap-4">
         <div className="flex flex-col items-center gap-1.5 shrink-0">
@@ -91,10 +91,97 @@ const ProductCard = () => (
   </div>
 );
 
+/* ---- Mobile Product Card (compact list item) ---- */
+const MobileProductCard = ({ index }: { index: number }) => {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <div className="border border-border rounded-lg overflow-hidden">
+      {/* Compact row */}
+      <button
+        onClick={() => setExpanded(!expanded)}
+        className="w-full flex items-center gap-3 p-3 hover:bg-muted/30 transition-colors"
+      >
+        <div className="w-10 h-10 rounded-md bg-muted/50 border border-border flex items-center justify-center shrink-0">
+          <Image className="w-5 h-5 text-muted-foreground/50" />
+        </div>
+        <div className="flex-1 text-left">
+          <span className="text-sm font-medium text-foreground">Produto {index + 1}</span>
+          <span className="text-[11px] text-muted-foreground block">Automático · Cartaz</span>
+        </div>
+        {expanded ? (
+          <ChevronUp className="w-4 h-4 text-muted-foreground shrink-0" />
+        ) : (
+          <ChevronDown className="w-4 h-4 text-muted-foreground shrink-0" />
+        )}
+      </button>
+
+      {/* Expandable options */}
+      <AnimatePresence>
+        {expanded && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden"
+          >
+            <div className="px-3 pb-3 space-y-1 border-t border-border pt-2">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-[11px] text-muted-foreground">Encarte</span>
+                <Switch defaultChecked className="scale-[0.6]" />
+                <span className="text-[11px] font-medium text-foreground">Cartaz</span>
+                <div className="ml-auto flex items-center gap-1">
+                  <span className="text-[11px] text-muted-foreground">Modo:</span>
+                  <Select defaultValue="automatico">
+                    <SelectTrigger className="h-6 text-[11px] w-20 border-primary">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="automatico">Automático</SelectItem>
+                      <SelectItem value="manual">Manual</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              {[
+                { icon: Pencil, label: "Editar informações", color: "text-foreground" },
+                { icon: Palette, label: "Cores e estilos", color: "text-foreground" },
+                { icon: Tag, label: "Alterar imagem", color: "text-foreground" },
+              ].map(({ icon: Icon, label, color }) => (
+                <button key={label} className={`flex items-center gap-2 text-xs ${color} hover:text-primary py-1.5 w-full transition-colors`}>
+                  <Icon className="w-3.5 h-3.5" />
+                  <span className="font-medium">{label}</span>
+                </button>
+              ))}
+              <div className="flex items-center gap-2 py-1.5">
+                <Heart className="w-3.5 h-3.5 text-destructive" />
+                <span className="text-xs font-medium text-foreground">Selo +18</span>
+                <Switch className="scale-[0.6] ml-auto" />
+              </div>
+              <button className="flex items-center gap-2 text-xs text-destructive hover:text-destructive/80 py-1.5 w-full transition-colors">
+                <Trash2 className="w-3.5 h-3.5" />
+                <span className="font-medium">Remover produto</span>
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
 /* ---- Panel contents ---- */
-const ProdutosContent = () => (
-  <div className="space-y-4">
-    <ProductCard />
+const ProdutosContent = ({ isMobile }: { isMobile?: boolean }) => (
+  <div className="space-y-3">
+    {isMobile ? (
+      <>
+        <MobileProductCard index={0} />
+      </>
+    ) : (
+      <ProductCard />
+    )}
     <div className="flex gap-2">
       <Button variant="outline" size="sm" className="flex-1 text-xs border-primary text-primary hover:bg-primary/5 rounded-full">
         + PRODUTO
@@ -124,20 +211,27 @@ const PlaceholderContent = ({ text }: { text: string }) => (
   <p className="text-sm text-muted-foreground">{text}</p>
 );
 
-const panelContent: Record<PanelId, React.ReactNode> = {
-  temas: <TemasContent />,
-  produtos: <ProdutosContent />,
-  rodape: <PlaceholderContent text="Configure o rodapé da sua oferta aqui." />,
-  imagens: <PlaceholderContent text="Gerencie as imagens do seu template." />,
-  logo: <PlaceholderContent text="Configure o logo aqui." />,
-  fontes: <PlaceholderContent text="Configure as fontes aqui." />,
-};
-
 const EditorPanel = ({ activePanel, onClose, isMobile }: EditorPanelProps) => {
+  const panelContent: Record<PanelId, React.ReactNode> = {
+    temas: <TemasContent />,
+    produtos: <ProdutosContent isMobile={isMobile} />,
+    rodape: <PlaceholderContent text="Configure o rodapé da sua oferta aqui." />,
+    imagens: <PlaceholderContent text="Gerencie as imagens do seu template." />,
+    logo: <PlaceholderContent text="Configure o logo aqui." />,
+    fontes: <PlaceholderContent text="Configure as fontes aqui." />,
+  };
+
   return (
-    <div className={`${isMobile ? "w-full" : "w-80 lg:w-96"} h-full bg-card border-l border-border flex flex-col`}>
+    <div className={`${isMobile ? "w-full" : "w-80 lg:w-96"} h-full bg-card ${isMobile ? "border-t rounded-t-2xl" : "border-l"} border-border flex flex-col`}>
+      {/* Drag handle for mobile */}
+      {isMobile && (
+        <div className="flex justify-center pt-2 pb-1 shrink-0">
+          <div className="w-10 h-1 rounded-full bg-muted-foreground/30" />
+        </div>
+      )}
+
       {/* Panel header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-border shrink-0">
+      <div className="flex items-center justify-between px-4 py-2 border-b border-border shrink-0">
         <h2 className="text-sm font-semibold text-foreground">{panelTitles[activePanel]}</h2>
         <button
           onClick={onClose}
@@ -149,7 +243,7 @@ const EditorPanel = ({ activePanel, onClose, isMobile }: EditorPanelProps) => {
 
       {/* Panel body */}
       <ScrollArea className="flex-1">
-        <div className="p-4">
+        <div className={isMobile ? "p-3" : "p-4"}>
           {panelContent[activePanel]}
         </div>
       </ScrollArea>
