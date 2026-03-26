@@ -22,8 +22,12 @@ const Editor = () => {
         {/* Left sidebar - desktop only (mobile uses bottom bar) */}
         <EditorSidebar activePanel={activePanel} onPanelChange={handlePanelToggle} />
 
-        {/* Canvas */}
-        <EditorCanvas />
+        {/* Page/product toolbar */}
+        <div className="flex flex-col flex-1 overflow-hidden min-w-0">
+          <EditorToolbar />
+          {/* Canvas */}
+          <EditorCanvas />
+        </div>
 
         {/* Right panel - desktop slides in */}
         <AnimatePresence>
