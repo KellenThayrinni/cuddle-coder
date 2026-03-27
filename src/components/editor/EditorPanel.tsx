@@ -21,11 +21,8 @@ interface EditorPanelProps {
 
 const panelTitles: Record<PanelId, string> = {
   temas: "Temas",
-  produtos: "Produtos",
-  rodape: "Rodapé",
-  imagens: "Imagens",
-  logo: "Logo",
-  fontes: "Fontes",
+  videoaulas: "Vídeo Aulas",
+  assinatura: "Assinatura",
 };
 
 /* ---- Desktop Product Card (full) ---- */
