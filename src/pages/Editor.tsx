@@ -13,8 +13,8 @@ const Editor = () => {
     <div className="h-[100dvh] flex flex-col bg-background overflow-hidden">
       <EditorHeader />
       <div className="flex flex-1 overflow-hidden relative">
-        {/* Left sidebar */}
         <EditorSidebar />
+        <EditorActionBar />
 
         {/* Canvas area */}
         <div className="flex flex-col flex-1 overflow-hidden min-w-0">
