@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import EditorHeader from "@/components/editor/EditorHeader";
 import EditorSidebar from "@/components/editor/EditorSidebar";
+import EditorActionBar from "@/components/editor/EditorActionBar";
 import EditorToolbar from "@/components/editor/EditorToolbar";
 import EditorCanvas from "@/components/editor/EditorCanvas";
 import EditorPanel from "@/components/editor/EditorPanel";
@@ -12,8 +13,8 @@ const Editor = () => {
     <div className="h-[100dvh] flex flex-col bg-background overflow-hidden">
       <EditorHeader />
       <div className="flex flex-1 overflow-hidden relative">
-        {/* Left sidebar */}
         <EditorSidebar />
+        <EditorActionBar />
 
         {/* Canvas area */}
         <div className="flex flex-col flex-1 overflow-hidden min-w-0">
