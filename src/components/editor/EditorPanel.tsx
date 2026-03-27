@@ -202,70 +202,67 @@ const EditorPanel = ({ isMobile, onClose }: EditorPanelProps) => {
   const [activeFormat, setActiveFormat] = useState("a4");
 
   return (
-    <div className={`${isMobile ? "w-full h-full" : "w-80 lg:w-96 h-full"} bg-card ${isMobile ? "" : "border-l"} border-border flex flex-col`}>
-      {/* Mobile header with close + format selector */}
+    <div className={`${isMobile ? "w-full h-full" : "w-80 lg:w-96 h-full"} flex flex-row`}>
+      {/* Vertical format strip (attached to left of panel) */}
       {isMobile && (
-        <div className="flex items-center justify-between px-3 py-2.5 border-b border-border shrink-0">
-          <span className="text-sm font-bold text-foreground">Painel</span>
-          <button onClick={onClose} className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-muted/50 transition-colors">
-            <X className="w-4 h-4 text-muted-foreground" />
-          </button>
-        </div>
-      )}
-
-      {/* Format selector (mobile only) */}
-      {isMobile && (
-        <div className="px-3 py-2 border-b border-border shrink-0">
-          <div className="flex items-center gap-1.5 mb-1.5">
-            <MonitorSmartphone className="w-3.5 h-3.5 text-muted-foreground" />
-            <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wide">Formato</span>
-          </div>
-          <div className="flex flex-wrap gap-1.5">
-            {formats.map((fmt) => (
-              <button
-                key={fmt.id}
-                onClick={() => setActiveFormat(fmt.id)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 ${
-                  activeFormat === fmt.id
-                    ? "bg-primary text-primary-foreground shadow-sm"
-                    : "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground"
-                }`}
-              >
-                {fmt.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Tab navigation */}
-      <div className="flex items-center gap-0.5 px-2 py-2 border-b border-border shrink-0 overflow-x-auto scrollbar-none">
-        {tabs.map((tab) => {
-          const Icon = tab.icon;
-          const isActive = activeTab === tab.id;
-          return (
+        <div className="w-14 shrink-0 bg-muted/80 border-r border-border flex flex-col items-center py-3 gap-1 overflow-y-auto scrollbar-none">
+          {formats.map((fmt) => (
             <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all duration-200 ${
-                isActive
-                  ? "bg-primary/15 text-primary"
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              key={fmt.id}
+              onClick={() => setActiveFormat(fmt.id)}
+              className={`w-11 py-2.5 rounded-lg text-[10px] font-bold text-center leading-tight transition-all duration-200 ${
+                activeFormat === fmt.id
+                  ? "bg-primary text-primary-foreground shadow-md"
+                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
               }`}
             >
-              <Icon className="w-3.5 h-3.5" />
-              {tab.label}
+              {fmt.label}
             </button>
-          );
-        })}
-      </div>
-
-      {/* Tab body */}
-      <ScrollArea className="flex-1">
-        <div className={isMobile ? "p-3 pb-20" : "p-4"}>
-          {tabContent[activeTab](isMobile)}
+          ))}
         </div>
-      </ScrollArea>
+      )}
+
+      {/* Main panel content */}
+      <div className={`flex-1 min-w-0 bg-card ${isMobile ? "" : "border-l"} border-border flex flex-col h-full`}>
+        {/* Mobile header */}
+        {isMobile && (
+          <div className="flex items-center justify-between px-3 py-2.5 border-b border-border shrink-0">
+            <span className="text-sm font-bold text-foreground">Painel</span>
+            <button onClick={onClose} className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-muted/50 transition-colors">
+              <X className="w-4 h-4 text-muted-foreground" />
+            </button>
+          </div>
+        )}
+
+        {/* Tab navigation */}
+        <div className="flex items-center gap-0.5 px-2 py-2 border-b border-border shrink-0 overflow-x-auto scrollbar-none">
+          {tabs.map((tab) => {
+            const Icon = tab.icon;
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all duration-200 ${
+                  isActive
+                    ? "bg-primary/15 text-primary"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                }`}
+              >
+                <Icon className="w-3.5 h-3.5" />
+                {tab.label}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Tab body */}
+        <ScrollArea className="flex-1">
+          <div className={isMobile ? "p-3 pb-20" : "p-4"}>
+            {tabContent[activeTab](isMobile)}
+          </div>
+        </ScrollArea>
+      </div>
     </div>
   );
 };
