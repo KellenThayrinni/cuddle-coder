@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { Pencil, Palette, Tag, Image, Trash2, Heart, ChevronDown, ChevronUp, ShoppingBag, FileText, ImageIcon, Stamp, Type, X, MonitorSmartphone } from "lucide-react";
+import { Pencil, Palette, Tag, Image, Trash2, Heart, ChevronDown, ChevronUp, ShoppingBag, FileText, ImageIcon, Stamp, Type, X, MonitorSmartphone, Eye } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -71,7 +71,7 @@ const ProductCard = () => (
 );
 
 /* ---- Mobile Product Card (compact list item) ---- */
-const MobileProductCard = ({ index }: { index: number }) => {
+const MobileProductCard = ({ index, onViewResult }: { index: number; onViewResult?: () => void }) => {
   const [expanded, setExpanded] = useState(false);
 
   return (
@@ -119,6 +119,13 @@ const MobileProductCard = ({ index }: { index: number }) => {
                 <span className="text-xs font-medium text-foreground">Selo +18</span>
                 <Switch className="scale-[0.6] ml-auto" />
               </div>
+              <button
+                onClick={(e) => { e.stopPropagation(); onViewResult?.(); }}
+                className="flex items-center gap-2 text-xs text-primary hover:text-primary/80 py-1.5 w-full transition-colors"
+              >
+                <Eye className="w-3.5 h-3.5" />
+                <span className="font-medium">Ver resultado</span>
+              </button>
               <button className="flex items-center gap-2 text-xs text-destructive hover:text-destructive/80 py-1.5 w-full transition-colors">
                 <Trash2 className="w-3.5 h-3.5" />
                 <span className="font-medium">Remover produto</span>
@@ -154,11 +161,11 @@ const GeneralProductConfig = ({ isMobile }: { isMobile?: boolean }) => (
   </div>
 );
 
-const ProdutosContent = ({ isMobile }: { isMobile?: boolean }) => (
+const ProdutosContent = ({ isMobile, onClose }: { isMobile?: boolean; onClose?: () => void }) => (
   <div className="space-y-3">
     <GeneralProductConfig isMobile={isMobile} />
     {isMobile ? (
-      <MobileProductCard index={0} />
+      <MobileProductCard index={0} onViewResult={onClose} />
     ) : (
       <ProductCard />
     )}
@@ -180,13 +187,13 @@ const PlaceholderContent = ({ text }: { text: string }) => (
   <p className="text-sm text-muted-foreground">{text}</p>
 );
 
-const tabContent: Record<EditorTabId, (isMobile?: boolean) => React.ReactNode> = {
-  produtos: (isMobile) => <ProdutosContent isMobile={isMobile} />,
+const makeTabContent = (onClose?: () => void): Record<EditorTabId, (isMobile?: boolean) => React.ReactNode> => ({
+  produtos: (isMobile) => <ProdutosContent isMobile={isMobile} onClose={onClose} />,
   rodape: () => <PlaceholderContent text="Configure o rodapé da sua oferta aqui." />,
   imagens: () => <PlaceholderContent text="Gerencie as imagens do seu template." />,
   logo: () => <PlaceholderContent text="Configure o logo aqui." />,
   fontes: () => <PlaceholderContent text="Configure as fontes aqui." />,
-};
+});
 
 const formats = [
   { id: "a4", label: "A4", w: "w-8", h: "h-11" },
@@ -226,6 +233,7 @@ const FormatThumbnail = ({ format, isActive }: { format: typeof formats[0]; isAc
 const EditorPanel = ({ isMobile, onClose }: EditorPanelProps) => {
   const [activeTab, setActiveTab] = useState<EditorTabId>("produtos");
   const [activeFormat, setActiveFormat] = useState("a4");
+  const tabContent = makeTabContent(onClose);
 
   return (
     <div className={`${isMobile ? "w-full h-full" : "w-80 lg:w-96 h-full"} flex flex-row`}>
