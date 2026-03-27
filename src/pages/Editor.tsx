@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import EditorHeader from "@/components/editor/EditorHeader";
 import EditorSidebar from "@/components/editor/EditorSidebar";
+import EditorActionBar from "@/components/editor/EditorActionBar";
 import EditorToolbar from "@/components/editor/EditorToolbar";
 import EditorCanvas from "@/components/editor/EditorCanvas";
 import EditorPanel from "@/components/editor/EditorPanel";
