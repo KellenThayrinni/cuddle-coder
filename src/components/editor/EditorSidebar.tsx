@@ -4,13 +4,6 @@ import { motion } from "framer-motion";
 import {
   Palette, ShoppingBag, FileText, ImageIcon, Stamp, Type, Save, FolderOpen, LogOut, MoreHorizontal
 } from "lucide-react";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import {
   Popover,
   PopoverContent,
@@ -42,7 +35,6 @@ const actionItems: SidebarItem[] = [
   { id: "sair", label: "Sair", icon: LogOut, isAction: true },
 ];
 
-// Mobile bottom bar: show first 4 items + "Mais" overflow
 const mobileVisibleItems = items.slice(0, 4);
 const mobileOverflowItems: SidebarItem[] = [...items.slice(4), ...actionItems];
 
@@ -69,75 +61,87 @@ const EditorSidebar = ({ activePanel, onPanelChange }: EditorSidebarProps) => {
     setMoreOpen(false);
   };
 
+  const container = {
+    hidden: { opacity: 0 },
+    show: { opacity: 1, transition: { staggerChildren: 0.06, delayChildren: 0.2 } },
+  };
+
+  const itemAnim = {
+    hidden: { opacity: 0, x: -15 },
+    show: { opacity: 1, x: 0 },
+  };
+
   return (
-    <TooltipProvider delayDuration={300}>
-      {/* ===== DESKTOP: vertical sidebar ===== */}
-      <div className="hidden md:flex w-[72px] bg-card border-r border-border shrink-0 flex-col">
-        <div className="flex items-center justify-center py-3">
+    <>
+      {/* ===== DESKTOP: dark vertical sidebar ===== */}
+      <motion.div
+        initial={{ x: -80, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        className="hidden md:flex w-56 lg:w-60 shrink-0 flex-col items-center py-6 px-4 bg-[hsl(270,20%,8%)] border-r border-[hsl(270,15%,15%)]"
+      >
+        {/* Logo */}
+        <div className="flex flex-col items-center gap-1.5 mb-8">
           <div
-            className="w-10 h-10 rounded-xl flex items-center justify-center"
-            style={{ background: "linear-gradient(135deg, var(--header-start), var(--header-end))" }}
+            className="w-14 h-14 rounded-2xl flex items-center justify-center"
+            style={{ background: 'linear-gradient(135deg, var(--header-start), var(--header-end))' }}
           >
-            <span className="text-white text-[10px] font-bold">CO</span>
+            <span className="text-2xl">🏷️</span>
           </div>
+          <h2 className="text-lg font-extrabold text-white tracking-tight">
+            Crie Oferta
+          </h2>
         </div>
 
-        <ScrollArea className="flex-1">
-          <div className="flex flex-col items-center gap-1 px-1.5 py-2">
-            {items.map((item) => {
-              const Icon = item.icon;
-              const isActive = activePanel === item.id;
-              return (
-                <Tooltip key={item.id}>
-                  <TooltipTrigger asChild>
-                    <motion.button
-                      whileTap={{ scale: 0.92 }}
-                      onClick={() => handleClick(item)}
-                      className={`w-full flex flex-col items-center gap-1 py-2.5 rounded-xl text-[10px] font-medium transition-all duration-150 ${
-                        isActive
-                          ? "bg-primary text-primary-foreground shadow-md"
-                          : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                      }`}
-                    >
-                      <Icon className="w-5 h-5" />
-                      <span className="leading-none">{item.label}</span>
-                    </motion.button>
-                  </TooltipTrigger>
-                  <TooltipContent side="right" className="text-xs">
-                    {item.label}
-                  </TooltipContent>
-                </Tooltip>
-              );
-            })}
-          </div>
-        </ScrollArea>
-
-        <div className="flex flex-col items-center gap-1 px-1.5 py-3 border-t border-border">
-          {actionItems.map((item) => {
-            const Icon = item.icon;
+        {/* Main menu */}
+        <motion.nav variants={container} initial="hidden" animate="show" className="flex flex-col gap-2 w-full flex-1">
+          {items.map((sidebarItem) => {
+            const Icon = sidebarItem.icon;
+            const isActive = activePanel === sidebarItem.id;
             return (
-              <Tooltip key={item.id}>
-                <TooltipTrigger asChild>
-                  <button
-                    onClick={() => handleClick(item)}
-                    className={`w-full flex flex-col items-center gap-1 py-2.5 rounded-xl text-[10px] font-medium transition-all ${
-                      item.id === "sair"
-                        ? "text-muted-foreground hover:text-destructive hover:bg-destructive/10"
-                        : "text-muted-foreground hover:text-primary hover:bg-primary/10"
-                    }`}
-                  >
-                    <Icon className="w-5 h-5" />
-                    <span className="leading-none">{item.label}</span>
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent side="right" className="text-xs">
-                  {item.label}
-                </TooltipContent>
-              </Tooltip>
+              <motion.button
+                key={sidebarItem.id}
+                variants={itemAnim}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => handleClick(sidebarItem)}
+                className={`flex items-center gap-3 w-full px-4 py-2.5 rounded-xl border text-sm font-semibold transition-all duration-200 ${
+                  isActive
+                    ? "border-primary/60 bg-primary/15 text-white"
+                    : "border-[hsl(270,15%,20%)] text-[hsl(0,0%,75%)] hover:border-primary/40 hover:text-white hover:bg-primary/10"
+                }`}
+              >
+                <Icon className="w-4.5 h-4.5" />
+                {sidebarItem.label}
+              </motion.button>
+            );
+          })}
+        </motion.nav>
+
+        {/* Action items */}
+        <div className="flex flex-col gap-2 w-full pt-4 mt-4 border-t border-[hsl(270,15%,15%)]">
+          {actionItems.map((sidebarItem) => {
+            const Icon = sidebarItem.icon;
+            const isExit = sidebarItem.id === "sair";
+            return (
+              <motion.button
+                key={sidebarItem.id}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => handleClick(sidebarItem)}
+                className={`flex items-center gap-3 w-full px-4 py-2.5 rounded-xl border text-sm font-semibold transition-all duration-200 ${
+                  isExit
+                    ? "border-[hsl(270,15%,20%)] text-[hsl(0,0%,60%)] hover:border-destructive/50 hover:text-destructive hover:bg-destructive/10"
+                    : "border-[hsl(270,15%,20%)] text-[hsl(0,0%,75%)] hover:border-primary/40 hover:text-white hover:bg-primary/10"
+                }`}
+              >
+                <Icon className="w-4.5 h-4.5" />
+                {sidebarItem.label}
+              </motion.button>
             );
           })}
         </div>
-      </div>
+      </motion.div>
 
       {/* ===== MOBILE: floating bottom bar ===== */}
       <div className="md:hidden fixed bottom-3 left-3 right-3 z-50">
@@ -151,9 +155,7 @@ const EditorSidebar = ({ activePanel, onPanelChange }: EditorSidebarProps) => {
                 whileTap={{ scale: 0.9 }}
                 onClick={() => handleClick(item)}
                 className={`relative flex flex-col items-center gap-0.5 py-2 px-3 rounded-xl text-[10px] font-medium transition-all duration-200 ${
-                  isActive
-                    ? "text-primary"
-                    : "text-muted-foreground"
+                  isActive ? "text-primary" : "text-muted-foreground"
                 }`}
               >
                 {isActive && (
@@ -169,7 +171,6 @@ const EditorSidebar = ({ activePanel, onPanelChange }: EditorSidebarProps) => {
             );
           })}
 
-          {/* More button with popover */}
           <Popover open={moreOpen} onOpenChange={setMoreOpen}>
             <PopoverTrigger asChild>
               <motion.button
@@ -218,7 +219,7 @@ const EditorSidebar = ({ activePanel, onPanelChange }: EditorSidebarProps) => {
         onClose={() => setModalMode(null)}
         mode={modalMode ?? "load"}
       />
-    </TooltipProvider>
+    </>
   );
 };
 
