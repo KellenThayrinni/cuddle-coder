@@ -1,12 +1,11 @@
 import { useState } from "react";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
-import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import SearchBanner from "@/components/dashboard/SearchBanner";
+import MenuSection from "@/components/dashboard/MenuSection";
 import ThemeSlider from "@/components/dashboard/ThemeSlider";
 import TutorialModal from "@/components/dashboard/TutorialModal";
 import TutorialArrow from "@/components/dashboard/TutorialArrow";
 import LoginAnnouncementPopup from "@/components/dashboard/LoginAnnouncementPopup";
-import MenuSection from "@/components/dashboard/MenuSection";
 import { motion, AnimatePresence } from "framer-motion";
 
 const gradients = [
@@ -45,36 +44,26 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex">
-      {/* Sidebar - desktop only */}
-      <DashboardSidebar />
+    <div className="min-h-screen bg-background">
+      <DashboardHeader />
+      <LoginAnnouncementPopup />
+      <TutorialModal open={showTutorial} onClose={handleCloseTutorial} />
+      <AnimatePresence>
+        <TutorialArrow show={showArrow} />
+      </AnimatePresence>
+      <SearchBanner />
+      <MenuSection />
 
-      {/* Main content */}
-      <div className="flex-1 flex flex-col min-w-0">
-        <DashboardHeader />
-        <LoginAnnouncementPopup />
-        <TutorialModal open={showTutorial} onClose={handleCloseTutorial} />
-        <AnimatePresence>
-          <TutorialArrow show={showArrow} />
-        </AnimatePresence>
-        <SearchBanner />
-
-        {/* Mobile menu - only visible on small screens */}
-        <div className="md:hidden">
-          <MenuSection />
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-          className="mt-8 pb-12 space-y-8"
-        >
-          {sliders.map((slider, i) => (
-            <ThemeSlider key={slider.title} title={slider.title} items={slider.items} index={i} />
-          ))}
-        </motion.div>
-      </div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.3 }}
+        className="mt-8 pb-12 space-y-8"
+      >
+        {sliders.map((slider, i) => (
+          <ThemeSlider key={slider.title} title={slider.title} items={slider.items} index={i} />
+        ))}
+      </motion.div>
     </div>
   );
 };
