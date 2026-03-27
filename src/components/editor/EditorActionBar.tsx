@@ -27,7 +27,7 @@ const EditorActionBar = () => (
       variants={container}
       initial="hidden"
       animate="show"
-      className="hidden md:flex w-16 shrink-0 flex-col items-center justify-center gap-2 py-4 bg-muted/60 border-r border-border"
+      className="flex w-12 md:w-16 shrink-0 flex-col items-center justify-center gap-1.5 md:gap-2 py-4 bg-muted/60 border-r border-border"
     >
       {actions.map((action) => {
         const Icon = action.icon;
@@ -38,9 +38,9 @@ const EditorActionBar = () => (
                 variants={item}
                 whileHover={{ scale: 1.12 }}
                 whileTap={{ scale: 0.92 }}
-                className="w-11 h-11 rounded-xl flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-200"
+                className="w-9 h-9 md:w-11 md:h-11 rounded-xl flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-200"
               >
-                <Icon className="w-6 h-6" strokeWidth={1.8} />
+                <Icon className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.8} />
               </motion.button>
             </TooltipTrigger>
             <TooltipContent side="right" className="text-xs">
