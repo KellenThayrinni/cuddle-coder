@@ -189,13 +189,39 @@ const tabContent: Record<EditorTabId, (isMobile?: boolean) => React.ReactNode> =
 };
 
 const formats = [
-  { id: "a4", label: "A4" },
-  { id: "a3", label: "A3" },
-  { id: "storie", label: "Storie" },
-  { id: "1080", label: "1080x1080" },
-  { id: "feed", label: "Feed" },
-  { id: "banner", label: "Banner" },
+  { id: "a4", label: "A4", w: "w-8", h: "h-11" },
+  { id: "a4-h", label: "A4", w: "w-11", h: "h-8" },
+  { id: "storie", label: "Storie", w: "w-6", h: "h-10" },
+  { id: "1080", label: "1080x1080", w: "w-9", h: "h-9" },
+  { id: "feed", label: "Feed\nInstagram", w: "w-8", h: "h-10" },
+  { id: "tv", label: "TV", w: "w-11", h: "h-7" },
+  { id: "oferta-tv", label: "Oferta TV", w: "w-11", h: "h-7" },
+  { id: "gondola", label: "Gôndola", w: "w-10", h: "h-5" },
+  { id: "gancho", label: "Gancho", w: "w-8", h: "h-8" },
 ];
+
+const FormatThumbnail = ({ format, isActive }: { format: typeof formats[0]; isActive: boolean }) => (
+  <button
+    className={`flex flex-col items-center gap-1 py-2 px-1 rounded-lg transition-all duration-200 w-full ${
+      isActive ? "bg-primary/20" : "hover:bg-muted"
+    }`}
+  >
+    <div
+      className={`${format.w} ${format.h} rounded-sm border-2 transition-colors duration-200 ${
+        isActive
+          ? "border-primary bg-primary/10"
+          : "border-muted-foreground/30 bg-muted/50"
+      }`}
+    />
+    <span className={`text-[9px] font-semibold leading-tight text-center whitespace-pre-line ${
+      isActive ? "text-primary" : "text-muted-foreground"
+    }`}>
+      {format.label}
+    </span>
+  </button>
+);
+
+/* --- Panel wrapper --- */
 
 const EditorPanel = ({ isMobile, onClose }: EditorPanelProps) => {
   const [activeTab, setActiveTab] = useState<EditorTabId>("produtos");
@@ -203,20 +229,16 @@ const EditorPanel = ({ isMobile, onClose }: EditorPanelProps) => {
 
   return (
     <div className={`${isMobile ? "w-full h-full" : "w-80 lg:w-96 h-full"} flex flex-row`}>
-      {/* Vertical format strip (attached to left of panel) */}
+      {/* Vertical format strip with thumbnails */}
       {isMobile && (
-        <div className="w-14 shrink-0 bg-muted/80 border-r border-border flex flex-col items-center py-3 gap-1 overflow-y-auto scrollbar-none">
+        <div className="w-16 shrink-0 bg-[hsl(270,20%,10%)] border-r border-[hsl(270,15%,15%)] flex flex-col items-center py-2 gap-0.5 overflow-y-auto scrollbar-none">
           {formats.map((fmt) => (
             <button
               key={fmt.id}
               onClick={() => setActiveFormat(fmt.id)}
-              className={`w-11 py-2.5 rounded-lg text-[10px] font-bold text-center leading-tight transition-all duration-200 ${
-                activeFormat === fmt.id
-                  ? "bg-primary text-primary-foreground shadow-md"
-                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
-              }`}
+              className="w-full px-1"
             >
-              {fmt.label}
+              <FormatThumbnail format={fmt} isActive={activeFormat === fmt.id} />
             </button>
           ))}
         </div>
