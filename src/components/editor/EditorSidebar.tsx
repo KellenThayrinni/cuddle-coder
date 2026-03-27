@@ -83,25 +83,7 @@ const EditorSidebar = () => {
         </motion.nav>
       </motion.div>
 
-      {/* ===== MOBILE: floating bottom bar ===== */}
-      <div className="md:hidden fixed bottom-3 left-3 right-3 z-50">
-        <div className="bg-card/95 backdrop-blur-xl border border-border rounded-2xl shadow-lg px-2 py-1.5 flex items-center justify-around gap-0.5">
-          {items.map((item) => {
-            const Icon = item.icon;
-            return (
-              <motion.button
-                key={item.id}
-                whileTap={{ scale: 0.9 }}
-                onClick={() => handleClick(item)}
-                className="relative flex flex-col items-center gap-0.5 py-2 px-3 rounded-xl text-[10px] font-medium text-muted-foreground transition-all duration-200"
-              >
-                <Icon className="w-5 h-5" />
-                <span className="leading-none">{item.label}</span>
-              </motion.button>
-            );
-          })}
-        </div>
-      </div>
+      {/* Mobile: sidebar hidden, action bar handles it */}
     </>
   );
 };

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { Pencil, Palette, Tag, Image, Trash2, Heart, ChevronDown, ChevronUp, ShoppingBag, FileText, ImageIcon, Stamp, Type } from "lucide-react";
+import { Pencil, Palette, Tag, Image, Trash2, Heart, ChevronDown, ChevronUp, ShoppingBag, FileText, ImageIcon, Stamp, Type, X, MonitorSmartphone } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -16,6 +16,7 @@ export type EditorTabId = "produtos" | "rodape" | "imagens" | "logo" | "fontes";
 
 interface EditorPanelProps {
   isMobile?: boolean;
+  onClose?: () => void;
 }
 
 const tabs: { id: EditorTabId; label: string; icon: React.ElementType }[] = [
@@ -187,15 +188,53 @@ const tabContent: Record<EditorTabId, (isMobile?: boolean) => React.ReactNode> =
   fontes: () => <PlaceholderContent text="Configure as fontes aqui." />,
 };
 
-const EditorPanel = ({ isMobile }: EditorPanelProps) => {
+const formats = [
+  { id: "a4", label: "A4" },
+  { id: "a3", label: "A3" },
+  { id: "storie", label: "Storie" },
+  { id: "1080", label: "1080x1080" },
+  { id: "feed", label: "Feed" },
+  { id: "banner", label: "Banner" },
+];
+
+const EditorPanel = ({ isMobile, onClose }: EditorPanelProps) => {
   const [activeTab, setActiveTab] = useState<EditorTabId>("produtos");
+  const [activeFormat, setActiveFormat] = useState("a4");
 
   return (
-    <div className={`${isMobile ? "w-full" : "w-80 lg:w-96"} h-full bg-card ${isMobile ? "border-t rounded-t-2xl" : "border-l"} border-border flex flex-col`}>
-      {/* Drag handle for mobile */}
+    <div className={`${isMobile ? "w-full h-full" : "w-80 lg:w-96 h-full"} bg-card ${isMobile ? "" : "border-l"} border-border flex flex-col`}>
+      {/* Mobile header with close + format selector */}
       {isMobile && (
-        <div className="flex justify-center pt-2 pb-1 shrink-0">
-          <div className="w-10 h-1 rounded-full bg-muted-foreground/30" />
+        <div className="flex items-center justify-between px-3 py-2.5 border-b border-border shrink-0">
+          <span className="text-sm font-bold text-foreground">Painel</span>
+          <button onClick={onClose} className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-muted/50 transition-colors">
+            <X className="w-4 h-4 text-muted-foreground" />
+          </button>
+        </div>
+      )}
+
+      {/* Format selector (mobile only) */}
+      {isMobile && (
+        <div className="px-3 py-2 border-b border-border shrink-0">
+          <div className="flex items-center gap-1.5 mb-1.5">
+            <MonitorSmartphone className="w-3.5 h-3.5 text-muted-foreground" />
+            <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wide">Formato</span>
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            {formats.map((fmt) => (
+              <button
+                key={fmt.id}
+                onClick={() => setActiveFormat(fmt.id)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 ${
+                  activeFormat === fmt.id
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground"
+                }`}
+              >
+                {fmt.label}
+              </button>
+            ))}
+          </div>
         </div>
       )}
 
