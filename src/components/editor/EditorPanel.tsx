@@ -195,11 +195,8 @@ const PlaceholderContent = ({ text }: { text: string }) => (
 const EditorPanel = ({ activePanel, onClose, isMobile }: EditorPanelProps) => {
   const panelContent: Record<PanelId, React.ReactNode> = {
     temas: <TemasContent />,
-    produtos: <ProdutosContent isMobile={isMobile} />,
-    rodape: <PlaceholderContent text="Configure o rodapé da sua oferta aqui." />,
-    imagens: <PlaceholderContent text="Gerencie as imagens do seu template." />,
-    logo: <PlaceholderContent text="Configure o logo aqui." />,
-    fontes: <PlaceholderContent text="Configure as fontes aqui." />,
+    videoaulas: <PlaceholderContent text="Acesse nossas vídeo aulas e aprenda a criar ofertas incríveis." />,
+    assinatura: <PlaceholderContent text="Gerencie sua assinatura e plano aqui." />,
   };
 
   return (
