@@ -62,7 +62,7 @@ const Editor = () => {
                 animate={{ x: 0 }}
                 exit={{ x: "100%" }}
                 transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                className="absolute right-0 top-0 bottom-0 z-50 w-[85%] max-w-sm"
+                className="absolute right-0 top-0 bottom-0 z-50 w-full"
               >
                 <EditorPanel isMobile onClose={() => setMobilePanelOpen(false)} />
               </motion.div>
