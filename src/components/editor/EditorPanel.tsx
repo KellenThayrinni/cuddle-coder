@@ -1,9 +1,8 @@
 import { useState } from "react";
-import type { PanelId } from "./EditorSidebar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { X, Pencil, Palette, Tag, Image, Trash2, Heart, ChevronDown, ChevronUp } from "lucide-react";
+import { Pencil, Palette, Tag, Image, Trash2, Heart, ChevronDown, ChevronUp, ShoppingBag, FileText, ImageIcon, Stamp, Type } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -13,17 +12,19 @@ import {
 } from "@/components/ui/select";
 import { AnimatePresence, motion } from "framer-motion";
 
+export type EditorTabId = "produtos" | "rodape" | "imagens" | "logo" | "fontes";
+
 interface EditorPanelProps {
-  activePanel: PanelId;
-  onClose: () => void;
   isMobile?: boolean;
 }
 
-const panelTitles: Record<PanelId, string> = {
-  temas: "Temas",
-  videoaulas: "Vídeo Aulas",
-  assinatura: "Assinatura",
-};
+const tabs: { id: EditorTabId; label: string; icon: React.ElementType }[] = [
+  { id: "produtos", label: "Produtos", icon: ShoppingBag },
+  { id: "rodape", label: "Rodapé", icon: FileText },
+  { id: "imagens", label: "Imagens", icon: ImageIcon },
+  { id: "logo", label: "Logo", icon: Stamp },
+  { id: "fontes", label: "Fontes", icon: Type },
+];
 
 /* ---- Desktop Product Card (full) ---- */
 const ProductCard = () => (
@@ -74,7 +75,6 @@ const MobileProductCard = ({ index }: { index: number }) => {
 
   return (
     <div className="border border-border rounded-lg overflow-hidden">
-      {/* Compact row */}
       <button
         onClick={() => setExpanded(!expanded)}
         className="w-full flex items-center gap-3 p-3 hover:bg-muted/30 transition-colors"
@@ -93,7 +93,6 @@ const MobileProductCard = ({ index }: { index: number }) => {
         )}
       </button>
 
-      {/* Expandable options */}
       <AnimatePresence>
         {expanded && (
           <motion.div
@@ -104,7 +103,6 @@ const MobileProductCard = ({ index }: { index: number }) => {
             className="overflow-hidden"
           >
             <div className="px-3 pb-3 space-y-1 border-t border-border pt-2">
-
               {[
                 { icon: Pencil, label: "Editar informações", color: "text-foreground" },
                 { icon: Palette, label: "Cores e estilos", color: "text-foreground" },
@@ -177,27 +175,20 @@ const ProdutosContent = ({ isMobile }: { isMobile?: boolean }) => (
   </div>
 );
 
-const TemasContent = () => (
-  <div className="grid grid-cols-2 gap-3">
-    {Array.from({ length: 6 }).map((_, i) => (
-      <div
-        key={i}
-        className="aspect-[3/4] rounded-lg bg-gradient-to-br from-primary/30 to-accent/30 border border-border cursor-pointer hover:ring-2 hover:ring-primary transition-all"
-      />
-    ))}
-  </div>
-);
-
 const PlaceholderContent = ({ text }: { text: string }) => (
   <p className="text-sm text-muted-foreground">{text}</p>
 );
 
-const EditorPanel = ({ activePanel, onClose, isMobile }: EditorPanelProps) => {
-  const panelContent: Record<PanelId, React.ReactNode> = {
-    temas: <TemasContent />,
-    videoaulas: <PlaceholderContent text="Acesse nossas vídeo aulas e aprenda a criar ofertas incríveis." />,
-    assinatura: <PlaceholderContent text="Gerencie sua assinatura e plano aqui." />,
-  };
+const tabContent: Record<EditorTabId, (isMobile?: boolean) => React.ReactNode> = {
+  produtos: (isMobile) => <ProdutosContent isMobile={isMobile} />,
+  rodape: () => <PlaceholderContent text="Configure o rodapé da sua oferta aqui." />,
+  imagens: () => <PlaceholderContent text="Gerencie as imagens do seu template." />,
+  logo: () => <PlaceholderContent text="Configure o logo aqui." />,
+  fontes: () => <PlaceholderContent text="Configure as fontes aqui." />,
+};
+
+const EditorPanel = ({ isMobile }: EditorPanelProps) => {
+  const [activeTab, setActiveTab] = useState<EditorTabId>("produtos");
 
   return (
     <div className={`${isMobile ? "w-full" : "w-80 lg:w-96"} h-full bg-card ${isMobile ? "border-t rounded-t-2xl" : "border-l"} border-border flex flex-col`}>
@@ -208,21 +199,32 @@ const EditorPanel = ({ activePanel, onClose, isMobile }: EditorPanelProps) => {
         </div>
       )}
 
-      {/* Panel header */}
-      <div className="flex items-center justify-between px-4 py-2 border-b border-border shrink-0">
-        <h2 className="text-sm font-semibold text-foreground">{panelTitles[activePanel]}</h2>
-        <button
-          onClick={onClose}
-          className="w-7 h-7 rounded-lg flex items-center justify-center text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
-        >
-          <X className="w-4 h-4" />
-        </button>
+      {/* Tab navigation */}
+      <div className="flex items-center gap-0.5 px-2 py-2 border-b border-border shrink-0 overflow-x-auto scrollbar-none">
+        {tabs.map((tab) => {
+          const Icon = tab.icon;
+          const isActive = activeTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all duration-200 ${
+                isActive
+                  ? "bg-primary/15 text-primary"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              }`}
+            >
+              <Icon className="w-3.5 h-3.5" />
+              {tab.label}
+            </button>
+          );
+        })}
       </div>
 
-      {/* Panel body */}
+      {/* Tab body */}
       <ScrollArea className="flex-1">
         <div className={isMobile ? "p-3 pb-20" : "p-4"}>
-          {panelContent[activePanel]}
+          {tabContent[activeTab](isMobile)}
         </div>
       </ScrollArea>
     </div>
