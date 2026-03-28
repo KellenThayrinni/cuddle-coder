@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { Pencil, Palette, Tag, Image, Trash2, Heart, ChevronDown, ChevronUp, ShoppingBag, FileText, ImageIcon, Stamp, Type, X, MonitorSmartphone, Eye } from "lucide-react";
+import { Pencil, Palette, Tag, Image, Trash2, Heart, ChevronDown, ChevronUp, ShoppingBag, FileText, ImageIcon, Stamp, Type, X, MonitorSmartphone, Eye, Sparkles } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -12,8 +12,9 @@ import {
 } from "@/components/ui/select";
 import { AnimatePresence, motion } from "framer-motion";
 import RodapeContent from "./RodapeContent";
+import TemasContent from "./TemasContent";
 
-export type EditorTabId = "produtos" | "rodape" | "imagens" | "logo" | "fontes";
+export type EditorTabId = "temas" | "produtos" | "rodape" | "imagens" | "logo" | "fontes";
 
 interface EditorPanelProps {
   isMobile?: boolean;
@@ -21,6 +22,7 @@ interface EditorPanelProps {
 }
 
 const tabs: { id: EditorTabId; label: string; icon: React.ElementType }[] = [
+  { id: "temas", label: "Temas", icon: Sparkles },
   { id: "produtos", label: "Produtos", icon: ShoppingBag },
   { id: "rodape", label: "Rodapé", icon: FileText },
   { id: "imagens", label: "Imagens", icon: ImageIcon },
@@ -189,6 +191,7 @@ const PlaceholderContent = ({ text }: { text: string }) => (
 );
 
 const makeTabContent = (onClose?: () => void): Record<EditorTabId, (isMobile?: boolean) => React.ReactNode> => ({
+  temas: (isMobile) => <TemasContent isMobile={isMobile} />,
   produtos: (isMobile) => <ProdutosContent isMobile={isMobile} onClose={onClose} />,
   rodape: (isMobile) => <RodapeContent isMobile={isMobile} />,
   imagens: () => <PlaceholderContent text="Gerencie as imagens do seu template." />,
