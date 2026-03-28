@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { AnimatePresence, motion } from "framer-motion";
+import RodapeContent from "./RodapeContent";
 
 export type EditorTabId = "produtos" | "rodape" | "imagens" | "logo" | "fontes";
 
@@ -189,7 +190,7 @@ const PlaceholderContent = ({ text }: { text: string }) => (
 
 const makeTabContent = (onClose?: () => void): Record<EditorTabId, (isMobile?: boolean) => React.ReactNode> => ({
   produtos: (isMobile) => <ProdutosContent isMobile={isMobile} onClose={onClose} />,
-  rodape: () => <PlaceholderContent text="Configure o rodapé da sua oferta aqui." />,
+  rodape: (isMobile) => <RodapeContent isMobile={isMobile} />,
   imagens: () => <PlaceholderContent text="Gerencie as imagens do seu template." />,
   logo: () => <PlaceholderContent text="Configure o logo aqui." />,
   fontes: () => <PlaceholderContent text="Configure as fontes aqui." />,
