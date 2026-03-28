@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { CloudUpload, Download, Save, Share2, ZoomOut, ZoomIn } from "lucide-react";
+import { CloudUpload, Download, Save, Share2, ZoomOut, ZoomIn, Printer } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import PrintDialog from "./PrintDialog";
 
 const actions = [
   { id: "cloud", label: "Salvar na nuvem", icon: CloudUpload },
-  { id: "download", label: "Imprimir / Download", icon: Download },
+  { id: "download", label: "Download", icon: Download },
+  { id: "print", label: "Imprimir", icon: Printer },
   { id: "save", label: "Salvar", icon: Save },
   { id: "share", label: "Compartilhar", icon: Share2 },
   { id: "zoom-out", label: "Zoom −", icon: ZoomOut },
@@ -43,7 +44,7 @@ const EditorActionBar = () => {
                   variants={item}
                   whileHover={{ scale: 1.12 }}
                   whileTap={{ scale: 0.92 }}
-                  onClick={action.id === "download" ? () => setPrintOpen(true) : undefined}
+                  onClick={action.id === "print" ? () => setPrintOpen(true) : undefined}
                   className="w-9 h-9 md:w-11 md:h-11 rounded-xl flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-200"
                 >
                   <Icon className="w-5 h-5 md:w-6 md:h-6" strokeWidth={1.8} />
