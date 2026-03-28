@@ -14,8 +14,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import RodapeContent from "./RodapeContent";
 import TemasContent from "./TemasContent";
 import ConfigContent from "./ConfigContent";
+import TvContent from "./TvContent";
 
-export type EditorTabId = "temas" | "produtos" | "rodape" | "imagens" | "config";
+export type EditorTabId = "temas" | "produtos" | "rodape" | "imagens" | "config" | "tv";
 
 interface EditorPanelProps {
   isMobile?: boolean;
@@ -28,6 +29,7 @@ const tabs: { id: EditorTabId; label: string; icon: React.ElementType }[] = [
   { id: "rodape", label: "Rodapé", icon: FileText },
   { id: "imagens", label: "Imagens", icon: ImageIcon },
   { id: "config", label: "Config", icon: Settings },
+  { id: "tv", label: "TV", icon: MonitorSmartphone },
 ];
 
 /* ---- Desktop Product Card (full) ---- */
@@ -196,6 +198,7 @@ const makeTabContent = (onClose?: () => void): Record<EditorTabId, (isMobile?: b
   rodape: (isMobile) => <RodapeContent isMobile={isMobile} />,
   imagens: () => <PlaceholderContent text="Gerencie as imagens do seu template." />,
   config: (isMobile) => <ConfigContent isMobile={isMobile} />,
+  tv: (isMobile) => <TvContent isMobile={isMobile} />,
 });
 
 const formats = [
