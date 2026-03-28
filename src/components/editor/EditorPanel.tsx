@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { Pencil, Palette, Tag, Image, Trash2, Heart, ChevronDown, ChevronUp, ShoppingBag, FileText, ImageIcon, Stamp, Type, X, MonitorSmartphone, Eye, Sparkles } from "lucide-react";
+import { Pencil, Palette, Tag, Image, Trash2, Heart, ChevronDown, ChevronUp, ShoppingBag, FileText, ImageIcon, Stamp, Type, X, MonitorSmartphone, Eye, Sparkles, Settings } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -13,8 +13,9 @@ import {
 import { AnimatePresence, motion } from "framer-motion";
 import RodapeContent from "./RodapeContent";
 import TemasContent from "./TemasContent";
+import ConfigContent from "./ConfigContent";
 
-export type EditorTabId = "temas" | "produtos" | "rodape" | "imagens" | "logo" | "fontes";
+export type EditorTabId = "temas" | "produtos" | "rodape" | "imagens" | "config";
 
 interface EditorPanelProps {
   isMobile?: boolean;
@@ -26,8 +27,7 @@ const tabs: { id: EditorTabId; label: string; icon: React.ElementType }[] = [
   { id: "produtos", label: "Produtos", icon: ShoppingBag },
   { id: "rodape", label: "Rodapé", icon: FileText },
   { id: "imagens", label: "Imagens", icon: ImageIcon },
-  { id: "logo", label: "Logo", icon: Stamp },
-  { id: "fontes", label: "Fontes", icon: Type },
+  { id: "config", label: "Config", icon: Settings },
 ];
 
 /* ---- Desktop Product Card (full) ---- */
@@ -195,8 +195,7 @@ const makeTabContent = (onClose?: () => void): Record<EditorTabId, (isMobile?: b
   produtos: (isMobile) => <ProdutosContent isMobile={isMobile} onClose={onClose} />,
   rodape: (isMobile) => <RodapeContent isMobile={isMobile} />,
   imagens: () => <PlaceholderContent text="Gerencie as imagens do seu template." />,
-  logo: () => <PlaceholderContent text="Configure o logo aqui." />,
-  fontes: () => <PlaceholderContent text="Configure as fontes aqui." />,
+  config: (isMobile) => <ConfigContent isMobile={isMobile} />,
 });
 
 const formats = [
