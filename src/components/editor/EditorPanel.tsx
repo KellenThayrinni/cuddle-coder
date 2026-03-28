@@ -228,6 +228,70 @@ const FormatThumbnail = ({ format, isActive }: { format: typeof formats[0]; isAc
   </button>
 );
 
+/* ---- Mobile format bar (horizontal, compact) ---- */
+const MobileFormatBar = ({ activeFormat, onSelect }: { activeFormat: string; onSelect: (id: string) => void }) => {
+  const [expanded, setExpanded] = useState(false);
+  const activeLabel = formats.find(f => f.id === activeFormat)?.label?.replace("\n", " ") ?? activeFormat;
+
+  return (
+    <div className="border-b border-border shrink-0">
+      <button
+        onClick={() => setExpanded(!expanded)}
+        className="w-full flex items-center justify-between px-3 py-2 hover:bg-muted/30 transition-colors"
+      >
+        <div className="flex items-center gap-2">
+          <MonitorSmartphone className="w-4 h-4 text-primary" />
+          <span className="text-xs font-semibold text-foreground">Formato:</span>
+          <span className="text-xs font-bold text-primary">{activeLabel}</span>
+        </div>
+        {expanded ? (
+          <ChevronUp className="w-4 h-4 text-muted-foreground" />
+        ) : (
+          <ChevronDown className="w-4 h-4 text-muted-foreground" />
+        )}
+      </button>
+
+      <AnimatePresence>
+        {expanded && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden"
+          >
+            <div className="px-2 pb-2 flex gap-1.5 overflow-x-auto scrollbar-none">
+              {formats.map((fmt) => (
+                <button
+                  key={fmt.id}
+                  onClick={() => { onSelect(fmt.id); setExpanded(false); }}
+                  className={`flex flex-col items-center gap-1 px-2 py-1.5 rounded-lg shrink-0 transition-all ${
+                    activeFormat === fmt.id ? "bg-primary/15" : "hover:bg-muted/50"
+                  }`}
+                >
+                  <div
+                    className={`${fmt.w} ${fmt.h} rounded-sm border-2 transition-colors ${
+                      activeFormat === fmt.id
+                        ? "border-primary bg-primary/10"
+                        : "border-muted-foreground/30 bg-muted/50"
+                    }`}
+                    style={{ transform: "scale(0.7)" }}
+                  />
+                  <span className={`text-[8px] font-semibold leading-tight text-center whitespace-pre-line ${
+                    activeFormat === fmt.id ? "text-primary" : "text-muted-foreground"
+                  }`}>
+                    {fmt.label}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
 /* --- Panel wrapper --- */
 
 const EditorPanel = ({ isMobile, onClose }: EditorPanelProps) => {
@@ -236,23 +300,7 @@ const EditorPanel = ({ isMobile, onClose }: EditorPanelProps) => {
   const tabContent = makeTabContent(onClose);
 
   return (
-    <div className={`${isMobile ? "w-full h-full" : "w-80 lg:w-96 h-full"} flex flex-row`}>
-      {/* Vertical format strip with thumbnails */}
-      {isMobile && (
-        <div className="w-16 shrink-0 bg-[hsl(270,20%,10%)] border-r border-[hsl(270,15%,15%)] flex flex-col items-center py-2 gap-0.5 overflow-y-auto scrollbar-none">
-          {formats.map((fmt) => (
-            <button
-              key={fmt.id}
-              onClick={() => setActiveFormat(fmt.id)}
-              className="w-full px-1"
-            >
-              <FormatThumbnail format={fmt} isActive={activeFormat === fmt.id} />
-            </button>
-          ))}
-        </div>
-      )}
-
-      {/* Main panel content */}
+    <div className={`${isMobile ? "w-full h-full" : "w-80 lg:w-96 h-full"} flex flex-col`}>
       <div className={`flex-1 min-w-0 bg-card ${isMobile ? "" : "border-l"} border-border flex flex-col h-full`}>
         {/* Mobile header */}
         {isMobile && (
@@ -262,6 +310,11 @@ const EditorPanel = ({ isMobile, onClose }: EditorPanelProps) => {
               <X className="w-4 h-4 text-muted-foreground" />
             </button>
           </div>
+        )}
+
+        {/* Mobile: horizontal collapsible format selector */}
+        {isMobile && (
+          <MobileFormatBar activeFormat={activeFormat} onSelect={setActiveFormat} />
         )}
 
         {/* Tab navigation */}
