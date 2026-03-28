@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { CloudUpload, Download, Save, Share2, ZoomOut, ZoomIn } from "lucide-react";
+import { CloudUpload, Download, Save, Share2, ZoomOut, ZoomIn, Printer } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import PrintDialog from "./PrintDialog";
 
 const actions = [
   { id: "cloud", label: "Salvar na nuvem", icon: CloudUpload },
-  { id: "download", label: "Imprimir / Download", icon: Download },
+  { id: "download", label: "Download", icon: Download },
+  { id: "print", label: "Imprimir", icon: Printer },
   { id: "save", label: "Salvar", icon: Save },
   { id: "share", label: "Compartilhar", icon: Share2 },
   { id: "zoom-out", label: "Zoom −", icon: ZoomOut },
