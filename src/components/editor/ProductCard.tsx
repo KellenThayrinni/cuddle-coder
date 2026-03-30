@@ -211,8 +211,9 @@ const PriceFields = ({
 const MoreOptionsMenu = () => (
   <DropdownMenu>
     <DropdownMenuTrigger asChild>
-      <button className="w-7 h-7 rounded-lg hover:bg-muted flex items-center justify-center transition-colors text-muted-foreground hover:text-foreground">
+      <button className="flex items-center gap-1.5 h-7 px-2 rounded-lg hover:bg-muted transition-colors text-muted-foreground hover:text-foreground">
         <MoreHorizontal className="w-4 h-4" />
+        <span className="text-[11px] font-medium">Configurações avançadas</span>
       </button>
     </DropdownMenuTrigger>
     <DropdownMenuContent align="end" className="w-48">
