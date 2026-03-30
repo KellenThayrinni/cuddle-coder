@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import {
   Pencil, Check, Image, Trash2, Heart,
-  ImagePlus, MoreHorizontal, X
+  ImagePlus, Settings, X
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
