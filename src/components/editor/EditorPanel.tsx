@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { Pencil, Palette, Tag, Image, Trash2, Heart, ChevronDown, ChevronUp, ShoppingBag, FileText, ImageIcon, Stamp, Type, X, MonitorSmartphone, Eye, Sparkles, Settings } from "lucide-react";
+import { ShoppingBag, FileText, ImageIcon, X, MonitorSmartphone, Sparkles, Settings } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -15,6 +15,7 @@ import RodapeContent from "./RodapeContent";
 import TemasContent from "./TemasContent";
 import ConfigContent from "./ConfigContent";
 import TvContent from "./TvContent";
+import ProductCard from "./ProductCard";
 
 export type EditorTabId = "temas" | "produtos" | "rodape" | "imagens" | "config" | "tv";
 
