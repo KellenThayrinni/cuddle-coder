@@ -1,15 +1,17 @@
 import { useState, useRef, useEffect } from "react";
 import {
-  Pencil, Check, Image, Trash2, Heart, ChevronDown, ChevronUp,
+  Pencil, Check, Image, Trash2, Heart,
   ImagePlus, MoreHorizontal, X
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import { Button } from "@/components/ui/button";
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
-import { AnimatePresence, motion } from "framer-motion";
+import {
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem,
+  DropdownMenuSeparator, DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 type PriceType = "simples" | "de-por" | "cartao-pix" | "atacado-varejo";
 
