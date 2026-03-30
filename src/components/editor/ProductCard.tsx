@@ -317,8 +317,6 @@ const ProductCard = ({ isMobile, index = 0 }: ProductCardProps) => {
             isMobile={isMobile}
           />
 
-          {/* Secondary actions */}
-          <SecondaryActions isMobile={isMobile} />
         </div>
       </div>
     </div>
