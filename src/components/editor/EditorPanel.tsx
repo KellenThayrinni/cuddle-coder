@@ -80,7 +80,7 @@ const PlaceholderContent = ({ text }: { text: string }) => (
 
 const makeTabContent = (onClose?: () => void): Record<EditorTabId, (isMobile?: boolean) => React.ReactNode> => ({
   temas: (isMobile) => <TemasContent isMobile={isMobile} />,
-  produtos: (isMobile) => <ProdutosContent isMobile={isMobile} onClose={onClose} />,
+  produtos: (isMobile) => <ProdutosContent isMobile={isMobile} />,
   rodape: (isMobile) => <RodapeContent isMobile={isMobile} />,
   imagens: () => <PlaceholderContent text="Gerencie as imagens do seu template." />,
   config: (isMobile) => <ConfigContent isMobile={isMobile} />,
