@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { ShoppingBag, FileText, ImageIcon, X, MonitorSmartphone, Sparkles, Settings } from "lucide-react";
+import { ChevronDown, ChevronUp, ShoppingBag, FileText, ImageIcon, X, MonitorSmartphone, Sparkles, Settings } from "lucide-react";
 import {
   Select,
   SelectContent,
