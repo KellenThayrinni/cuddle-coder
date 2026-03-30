@@ -33,117 +33,6 @@ const tabs: { id: EditorTabId; label: string; icon: React.ElementType }[] = [
   { id: "tv", label: "TV", icon: MonitorSmartphone },
 ];
 
-/* ---- Desktop Product Card (full) ---- */
-const ProductCard = () => (
-  <div className="border border-border rounded-xl p-4">
-    <div className="border border-primary/20 rounded-xl p-4 bg-primary/[0.02]">
-      <div className="flex gap-4">
-        <div className="flex flex-col items-center gap-1.5 shrink-0">
-          <div className="w-28 h-28 rounded-lg bg-muted/50 border border-border flex items-center justify-center">
-            <div className="w-20 h-20 rounded-md bg-gradient-to-br from-muted to-muted/50 flex items-center justify-center">
-              <Image className="w-8 h-8 text-muted-foreground/50" />
-            </div>
-          </div>
-          <button className="flex items-center gap-1 text-[11px] text-primary hover:text-primary/80 transition-colors">
-            <Image className="w-3 h-3" />
-            Ver mais imagens
-          </button>
-        </div>
-
-        <div className="flex flex-col gap-1.5 flex-1">
-          {[
-            { icon: Pencil, label: "Editar informações" },
-            { icon: Palette, label: "Cores e estilos" },
-            { icon: Tag, label: "Alterar imagem" },
-          ].map(({ icon: Icon, label }) => (
-            <button key={label} className="flex items-center gap-2.5 text-sm text-foreground hover:text-primary py-1 transition-colors">
-              <Icon className="w-4 h-4" />
-              <span className="font-medium">{label}</span>
-            </button>
-          ))}
-          <div className="flex items-center gap-2.5 py-1">
-            <Heart className="w-4 h-4 text-destructive" />
-            <span className="text-sm font-medium text-foreground">Selo +18</span>
-            <Switch className="scale-75 ml-auto" />
-          </div>
-          <button className="flex items-center gap-2.5 text-sm text-destructive hover:text-destructive/80 py-1 transition-colors mt-1">
-            <Trash2 className="w-4 h-4" />
-            <span className="font-medium">Remover produto</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-);
-
-/* ---- Mobile Product Card (compact list item) ---- */
-const MobileProductCard = ({ index, onViewResult }: { index: number; onViewResult?: () => void }) => {
-  const [expanded, setExpanded] = useState(false);
-
-  return (
-    <div className="border border-border rounded-lg overflow-hidden">
-      <button
-        onClick={() => setExpanded(!expanded)}
-        className="w-full flex items-center gap-3 p-3 hover:bg-muted/30 transition-colors"
-      >
-        <div className="w-10 h-10 rounded-md bg-muted/50 border border-border flex items-center justify-center shrink-0">
-          <Image className="w-5 h-5 text-muted-foreground/50" />
-        </div>
-        <div className="flex-1 text-left">
-          <span className="text-sm font-medium text-foreground">Produto {index + 1}</span>
-          <span className="text-[11px] text-muted-foreground block">Automático · Cartaz</span>
-        </div>
-        {expanded ? (
-          <ChevronUp className="w-4 h-4 text-muted-foreground shrink-0" />
-        ) : (
-          <ChevronDown className="w-4 h-4 text-muted-foreground shrink-0" />
-        )}
-      </button>
-
-      <AnimatePresence>
-        {expanded && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="overflow-hidden"
-          >
-            <div className="px-3 pb-3 space-y-1 border-t border-border pt-2">
-              {[
-                { icon: Pencil, label: "Editar informações", color: "text-foreground" },
-                { icon: Palette, label: "Cores e estilos", color: "text-foreground" },
-                { icon: Tag, label: "Alterar imagem", color: "text-foreground" },
-              ].map(({ icon: Icon, label, color }) => (
-                <button key={label} className={`flex items-center gap-2 text-xs ${color} hover:text-primary py-1.5 w-full transition-colors`}>
-                  <Icon className="w-3.5 h-3.5" />
-                  <span className="font-medium">{label}</span>
-                </button>
-              ))}
-              <div className="flex items-center gap-2 py-1.5">
-                <Heart className="w-3.5 h-3.5 text-destructive" />
-                <span className="text-xs font-medium text-foreground">Selo +18</span>
-                <Switch className="scale-[0.6] ml-auto" />
-              </div>
-              <button
-                onClick={(e) => { e.stopPropagation(); onViewResult?.(); }}
-                className="flex items-center gap-2 text-xs text-primary hover:text-primary/80 py-1.5 w-full transition-colors"
-              >
-                <Eye className="w-3.5 h-3.5" />
-                <span className="font-medium">Ver resultado</span>
-              </button>
-              <button className="flex items-center gap-2 text-xs text-destructive hover:text-destructive/80 py-1.5 w-full transition-colors">
-                <Trash2 className="w-3.5 h-3.5" />
-                <span className="font-medium">Remover produto</span>
-              </button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-};
-
 /* ---- Panel contents ---- */
 const GeneralProductConfig = ({ isMobile }: { isMobile?: boolean }) => (
   <div className="flex items-center justify-between flex-wrap gap-2 p-3 border border-border rounded-lg bg-muted/30">
@@ -167,14 +56,10 @@ const GeneralProductConfig = ({ isMobile }: { isMobile?: boolean }) => (
   </div>
 );
 
-const ProdutosContent = ({ isMobile, onClose }: { isMobile?: boolean; onClose?: () => void }) => (
+const ProdutosContent = ({ isMobile }: { isMobile?: boolean }) => (
   <div className="space-y-3">
     <GeneralProductConfig isMobile={isMobile} />
-    {isMobile ? (
-      <MobileProductCard index={0} onViewResult={onClose} />
-    ) : (
-      <ProductCard />
-    )}
+    <ProductCard isMobile={isMobile} index={0} />
     <div className="flex gap-2">
       <Button variant="outline" size="sm" className="flex-1 text-xs border-primary text-primary hover:bg-primary/5 rounded-full">
         + PRODUTO
