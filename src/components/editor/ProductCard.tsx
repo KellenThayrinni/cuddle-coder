@@ -254,7 +254,11 @@ const ProductCard = ({ isMobile, index = 0 }: ProductCardProps) => {
   };
 
   return (
-    <div className="border border-border rounded-xl overflow-hidden bg-card transition-shadow hover:shadow-md">
+    <div className="border border-border rounded-xl overflow-hidden bg-card transition-shadow hover:shadow-md relative">
+      {/* More Options - top right */}
+      <div className="absolute top-2 right-2 z-10">
+        <MoreOptionsMenu />
+      </div>
       {/* Card Inner */}
       <div className={`flex ${isMobile ? "flex-col" : "flex-row"} gap-0`}>
         {/* Image Section */}
