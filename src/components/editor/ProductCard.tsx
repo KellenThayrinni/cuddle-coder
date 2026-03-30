@@ -207,52 +207,33 @@ const PriceFields = ({
   );
 };
 
-/* ---- Secondary Actions ---- */
-const SecondaryActions = ({ isMobile }: { isMobile?: boolean }) => {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <div>
-      <button
-        onClick={() => setOpen(!open)}
-        className={`flex items-center gap-1.5 ${isMobile ? "text-[10px]" : "text-[11px]"} text-muted-foreground hover:text-foreground transition-colors`}
-      >
-        <MoreHorizontal className="w-3.5 h-3.5" />
-        <span className="font-medium">Mais ações</span>
-        {open ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+/* ---- More Options Dropdown ---- */
+const MoreOptionsMenu = () => (
+  <DropdownMenu>
+    <DropdownMenuTrigger asChild>
+      <button className="w-7 h-7 rounded-lg hover:bg-muted flex items-center justify-center transition-colors text-muted-foreground hover:text-foreground">
+        <MoreHorizontal className="w-4 h-4" />
       </button>
-
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.15 }}
-            className="overflow-hidden"
-          >
-            <div className={`flex flex-wrap gap-1.5 pt-2 ${isMobile ? "gap-1" : ""}`}>
-              <Button variant="outline" size="sm" className="h-7 text-[11px] gap-1.5 rounded-lg border-border text-muted-foreground hover:text-foreground">
-                <ImagePlus className="w-3 h-3" /> Alterar imagem
-              </Button>
-              <Button variant="outline" size="sm" className="h-7 text-[11px] gap-1.5 rounded-lg border-border text-muted-foreground hover:text-foreground">
-                <Image className="w-3 h-3" /> Ver imagens
-              </Button>
-              <div className="flex items-center gap-1.5 px-2 h-7 rounded-lg border border-border">
-                <Heart className="w-3 h-3 text-destructive" />
-                <span className="text-[11px] font-medium text-muted-foreground">+18</span>
-                <Switch className="scale-[0.55]" />
-              </div>
-              <Button variant="outline" size="sm" className="h-7 text-[11px] gap-1.5 rounded-lg border-destructive/30 text-destructive hover:bg-destructive/5">
-                <Trash2 className="w-3 h-3" /> Remover
-              </Button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-};
+    </DropdownMenuTrigger>
+    <DropdownMenuContent align="end" className="w-48">
+      <DropdownMenuItem className="gap-2 text-xs cursor-pointer">
+        <ImagePlus className="w-3.5 h-3.5" /> Alterar imagem
+      </DropdownMenuItem>
+      <DropdownMenuItem className="gap-2 text-xs cursor-pointer">
+        <Image className="w-3.5 h-3.5" /> Ver imagens
+      </DropdownMenuItem>
+      <DropdownMenuItem className="gap-2 text-xs cursor-pointer" onSelect={(e) => e.preventDefault()}>
+        <Heart className="w-3.5 h-3.5 text-destructive" />
+        <span>Selo +18</span>
+        <Switch className="scale-[0.6] ml-auto" />
+      </DropdownMenuItem>
+      <DropdownMenuSeparator />
+      <DropdownMenuItem className="gap-2 text-xs cursor-pointer text-destructive focus:text-destructive">
+        <Trash2 className="w-3.5 h-3.5" /> Remover produto
+      </DropdownMenuItem>
+    </DropdownMenuContent>
+  </DropdownMenu>
+);
 
 /* ============ MAIN PRODUCT CARD ============ */
 export interface ProductCardProps {
