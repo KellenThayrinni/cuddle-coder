@@ -165,6 +165,7 @@ const ProductCard = ({ isMobile, index = 0 }: ProductCardProps) => {
     setEditingPrice(false);
   };
 
+  const confirmName = () => {
     setProductName(nameDraft);
     setEditingName(false);
   };
