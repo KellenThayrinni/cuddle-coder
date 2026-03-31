@@ -159,7 +159,12 @@ const ProductCard = ({ isMobile, index = 0 }: ProductCardProps) => {
     }
   }, [editingName]);
 
-  const confirmName = () => {
+  const confirmPrice = () => {
+    const mainKey = mainField[mainField.length - 1].key;
+    setPrices((prev) => ({ ...prev, [mainKey]: priceDraft }));
+    setEditingPrice(false);
+  };
+
     setProductName(nameDraft);
     setEditingName(false);
   };
