@@ -171,21 +171,19 @@ const ProductCard = ({ isMobile, index = 0 }: ProductCardProps) => {
 
   return (
     <div className="border border-border rounded-lg overflow-hidden bg-card transition-shadow hover:shadow-sm">
-      {/* === COLLAPSED ROW: Image + Name + Price + Arrow === */}
-      <div
-        className="flex items-center gap-3 p-2 cursor-pointer select-none"
-        onClick={() => !editingName && setExpanded(!expanded)}
-      >
+      {/* === COLLAPSED ROW: Image + Name/Price + Arrow === */}
+      <div className="flex items-center gap-3 p-2">
         {/* Position + Image */}
-        <div className="relative w-10 h-10 rounded-md bg-muted/40 flex items-center justify-center shrink-0 group">
+        <div className="relative w-10 h-10 rounded-md bg-muted/40 flex items-center justify-center shrink-0">
           <Image className="w-4 h-4 text-muted-foreground/40" />
           <div className="absolute -top-1 -left-1 bg-primary text-primary-foreground text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
             {index + 1}
           </div>
         </div>
 
-        {/* Name */}
-        <div className="flex-1 min-w-0" onClick={(e) => e.stopPropagation()}>
+        {/* Name + Price stacked */}
+        <div className="flex-1 min-w-0 space-y-0.5" onClick={(e) => e.stopPropagation()}>
+          {/* Name */}
           {editingName ? (
             <div className="flex items-center gap-1">
               <Input
@@ -212,17 +210,48 @@ const ProductCard = ({ isMobile, index = 0 }: ProductCardProps) => {
               {productName}
             </button>
           )}
+
+          {/* Inline editable price */}
+          {editingPrice ? (
+            <div className="flex items-center gap-1">
+              <span className="text-xs font-bold text-muted-foreground">R$</span>
+              <Input
+                ref={priceInputRef}
+                value={priceDraft}
+                onChange={(e) => setPriceDraft(e.target.value)}
+                onKeyDown={(e) => { if (e.key === "Enter") confirmPrice(); if (e.key === "Escape") { setPriceDraft(displayPrice); setEditingPrice(false); } }}
+                placeholder="0,00"
+                className="h-6 text-xs font-bold w-20 min-w-0 border-primary/40 px-1"
+                style={{ color: priceColor }}
+              />
+              <button onClick={confirmPrice} className="w-5 h-5 rounded flex items-center justify-center hover:bg-primary/10 shrink-0">
+                <Check className="w-3 h-3 text-primary" />
+              </button>
+              <button onClick={() => { setPriceDraft(displayPrice); setEditingPrice(false); }} className="w-5 h-5 rounded flex items-center justify-center hover:bg-muted shrink-0">
+                <X className="w-3 h-3 text-muted-foreground" />
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => { setEditingPrice(true); setPriceDraft(displayPrice); }}
+              className="text-xs font-bold hover:opacity-70 transition-opacity text-left"
+              style={{ color: priceColor }}
+              title="Clique para editar preço"
+            >
+              R$ {displayPrice}
+            </button>
+          )}
         </div>
 
-        {/* Price display */}
-        <span className="text-sm font-bold shrink-0" style={{ color: priceColor }}>
-          R$ {displayPrice}
-        </span>
-
         {/* Expand arrow */}
-        <ChevronDown
-          className={`w-4 h-4 text-muted-foreground transition-transform shrink-0 ${expanded ? "rotate-180" : ""}`}
-        />
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="w-7 h-7 rounded-md hover:bg-muted flex items-center justify-center shrink-0 transition-colors"
+        >
+          <ChevronDown
+            className={`w-4 h-4 text-muted-foreground transition-transform ${expanded ? "rotate-180" : ""}`}
+          />
+        </button>
       </div>
 
       {/* === EXPANDED OPTIONS === */}
