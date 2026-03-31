@@ -147,7 +147,10 @@ const ProductCard = ({ isMobile, index = 0 }: ProductCardProps) => {
   const [expanded, setExpanded] = useState(false);
   const [editingName, setEditingName] = useState(false);
   const [nameDraft, setNameDraft] = useState(productName);
+  const [editingPrice, setEditingPrice] = useState(false);
+  const [priceDraft, setPriceDraft] = useState("");
   const nameInputRef = useRef<HTMLInputElement>(null);
+  const priceInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (editingName) {
