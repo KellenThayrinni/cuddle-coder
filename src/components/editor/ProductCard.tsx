@@ -227,36 +227,18 @@ const ProductCard = ({ isMobile, index = 0 }: ProductCardProps) => {
             </button>
           )}
 
-          {/* Inline editable price */}
-          {editingPrice ? (
-            <div className="flex items-center gap-1">
-              <span className="text-xs font-bold text-muted-foreground">R$</span>
-              <Input
-                ref={priceInputRef}
-                value={priceDraft}
-                onChange={(e) => setPriceDraft(e.target.value)}
-                onKeyDown={(e) => { if (e.key === "Enter") confirmPrice(); if (e.key === "Escape") { setPriceDraft(displayPrice); setEditingPrice(false); } }}
-                placeholder="0,00"
-                className="h-6 text-xs font-bold w-20 min-w-0 border-primary/40 px-1"
-                style={{ color: priceColor }}
-              />
-              <button onClick={confirmPrice} className="w-5 h-5 rounded flex items-center justify-center hover:bg-primary/10 shrink-0">
-                <Check className="w-3 h-3 text-primary" />
-              </button>
-              <button onClick={() => { setPriceDraft(displayPrice); setEditingPrice(false); }} className="w-5 h-5 rounded flex items-center justify-center hover:bg-muted shrink-0">
-                <X className="w-3 h-3 text-muted-foreground" />
-              </button>
-            </div>
-          ) : (
-            <button
-              onClick={() => { setEditingPrice(true); setPriceDraft(displayPrice); }}
-              className="text-xs font-bold hover:opacity-70 transition-opacity text-left"
-              style={{ color: priceColor }}
-              title="Clique para editar preço"
-            >
-              R$ {displayPrice}
-            </button>
-          )}
+          {/* Always-visible price input */}
+          <div className="relative w-28">
+            <span className="absolute left-2 top-1/2 -translate-y-1/2 text-[11px] font-bold text-emerald-600">
+              R$
+            </span>
+            <Input
+              value={prices[mainField[mainField.length - 1].key] || ""}
+              onChange={(e) => handlePriceChange(mainField[mainField.length - 1].key, e.target.value)}
+              placeholder="0,00"
+              className="h-7 text-xs font-bold pl-7 pr-2 border-emerald-300 bg-emerald-50/50 text-emerald-700 focus:border-emerald-500 focus:ring-emerald-500/20"
+            />
+          </div>
         </div>
 
         {/* Expand arrow */}
