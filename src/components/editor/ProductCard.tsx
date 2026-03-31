@@ -227,17 +227,37 @@ const ProductCard = ({ isMobile, index = 0 }: ProductCardProps) => {
             </button>
           )}
 
-          {/* Always-visible price input */}
-          <div className="relative w-28">
-            <span className="absolute left-2 top-1/2 -translate-y-1/2 text-[11px] font-bold text-emerald-600">
-              R$
-            </span>
-            <Input
-              value={prices[mainField[mainField.length - 1].key] || ""}
-              onChange={(e) => handlePriceChange(mainField[mainField.length - 1].key, e.target.value)}
-              placeholder="0,00"
-              className="h-7 text-xs font-bold pl-7 pr-2 border-emerald-300 bg-emerald-50/50 text-emerald-700 focus:border-emerald-500 focus:ring-emerald-500/20"
-            />
+          {/* Always-visible price inputs */}
+          <div className="flex items-center gap-2">
+            {mainField.map((field) => {
+              const isFromField = field.key === "from";
+              return (
+                <div key={field.key} className="relative">
+                  {mainField.length > 1 && (
+                    <span className={`absolute -top-2.5 left-1 text-[8px] font-bold uppercase ${
+                      isFromField ? "text-red-400" : "text-emerald-600"
+                    }`}>
+                      {field.label}
+                    </span>
+                  )}
+                  <span className={`absolute left-2 top-1/2 -translate-y-1/2 text-[11px] font-bold ${
+                    isFromField ? "text-red-400" : "text-emerald-600"
+                  }`}>
+                    R$
+                  </span>
+                  <Input
+                    value={prices[field.key] || ""}
+                    onChange={(e) => handlePriceChange(field.key, e.target.value)}
+                    placeholder="0,00"
+                    className={`h-7 text-xs font-bold pl-7 pr-2 w-24 focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 ${
+                      isFromField
+                        ? "border-red-300 bg-red-50/50 text-red-400 line-through"
+                        : "border-emerald-300 bg-emerald-50/50 text-emerald-700 focus:border-emerald-500"
+                    }`}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
 
