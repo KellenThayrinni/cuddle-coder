@@ -228,13 +228,13 @@ const ProductCard = ({ isMobile, index = 0 }: ProductCardProps) => {
           )}
 
           {/* Always-visible price inputs */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 py-[6px]">
             {mainField.map((field) => {
               const isFromField = field.key === "from";
               return (
                 <div key={field.key} className="relative">
                   {mainField.length > 1 && (
-                    <span className={`absolute -top-2.5 left-1 text-[8px] font-bold uppercase ${
+                    <span className={`absolute -top-2.5 left-1 text-[8px] font-bold uppercase my-0 py-0 ${
                       isFromField ? "text-red-400" : "text-emerald-600"
                     }`}>
                       {field.label}
