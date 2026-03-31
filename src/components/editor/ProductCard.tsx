@@ -198,7 +198,7 @@ const ProductCard = ({ isMobile, index = 0 }: ProductCardProps) => {
         </div>
 
         {/* Name + Price stacked */}
-        <div className="flex-1 min-w-0 space-y-0.5" onClick={(e) => e.stopPropagation()}>
+        <div className="flex-1 min-w-0 space-y-1.5" onClick={(e) => e.stopPropagation()}>
           {/* Name */}
           {editingName ? (
             <div className="flex items-center gap-1">
