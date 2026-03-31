@@ -159,6 +159,13 @@ const ProductCard = ({ isMobile, index = 0 }: ProductCardProps) => {
     }
   }, [editingName]);
 
+  useEffect(() => {
+    if (editingPrice) {
+      priceInputRef.current?.focus();
+      priceInputRef.current?.select();
+    }
+  }, [editingPrice]);
+
   const confirmPrice = () => {
     const mainKey = mainField[mainField.length - 1].key;
     setPrices((prev) => ({ ...prev, [mainKey]: priceDraft }));
