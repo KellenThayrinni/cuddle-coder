@@ -72,8 +72,8 @@ const DashboardHeader = () => {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="flex items-center gap-2 px-2 hover:bg-primary-foreground/10">
                 <Avatar className="h-8 w-8">
-                  <AvatarFallback className="bg-primary-foreground/20 text-primary-foreground text-xs font-semibold">
-                    US
+                  <AvatarFallback className="bg-blue-400 text-white">
+                    <User className="h-5 w-5" />
                   </AvatarFallback>
                 </Avatar>
                 <ChevronDown className="h-4 w-4 text-primary-foreground/80" />
